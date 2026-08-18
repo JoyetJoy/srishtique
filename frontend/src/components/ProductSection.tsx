@@ -143,7 +143,6 @@ export const ProductCard = ({ product }: { product: Product }) => {
         variantId={product.variantId || 0} 
         quantity={1} 
         price={product.price || 0} 
-        color={product.color || ''} 
         size={product.size || ''} 
       />
     </div>

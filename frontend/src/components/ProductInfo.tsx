@@ -428,7 +428,6 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
         variantId={matchingVariant?.id || 0} 
         quantity={quantity} 
         price={matchingVariant?.price || product?.price || 0} 
-        color={selectedColorName || matchingVariant?.color || ''} 
         size={activeSize} 
       />
     </div>
