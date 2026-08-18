@@ -378,13 +378,7 @@ const ProductListingPage = () => {
   return (
     <>
       <SEO title={seoTitle} description={seoDescription} />
-      {(pageDetails.type === 'clothes' || pageDetails.type === 'category' || pageDetails.type === 'collection' || pageDetails.type === 'new-arrivals' || pageDetails.type === 'trending' || pageDetails.type === 'products') && (
-        <CategorySection 
-          key={pageDetails.type}
-          defaultTab="SPICE"
-          activeCategorySlug={slug} 
-        />
-      )}
+
       {(pageDetails.type === 'occasion' || pageDetails.type === 'maternity') && pageDetails.heroImage && (
         <div style={{ width: '100%', marginBottom: '0' }}>
           <img src={getImageUrl(pageDetails.heroImage)} alt={pageDetails.title} style={{ width: '100%', height: '350px', display: 'block', objectFit: 'cover', objectPosition: 'center 20%' }} />

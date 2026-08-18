@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, MapPin, Lock } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCheckout } from '../hooks/useCheckout';
@@ -65,7 +66,7 @@ const CheckoutDrawer = ({ isOpen, onClose, product, variantId, quantity, price, 
     });
   };
 
-  return (
+  return createPortal(
     <>
       <div className="checkout-drawer-overlay" onClick={onClose} />
       <div className={`checkout-drawer ${isOpen ? 'open' : ''}`}>
@@ -183,7 +184,8 @@ const CheckoutDrawer = ({ isOpen, onClose, product, variantId, quantity, price, 
           toast.success('Address saved and selected!');
         }} 
       />
-    </>
+    </>,
+    document.body
   );
 };
 

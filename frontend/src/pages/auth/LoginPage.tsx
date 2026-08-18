@@ -62,12 +62,12 @@ const LoginPage = () => {
 
         <form onSubmit={handleLogin} className="auth-form">
           <div className="auth-form-group">
-            <label>Mobile Number or Email</label>
+            <label>Mobile Number</label>
             <input
-              type="text"
+              type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="Enter your mobile number or email"
+              placeholder="Enter your mobile number"
               required
             />
           </div>

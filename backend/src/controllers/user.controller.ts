@@ -202,7 +202,7 @@ export const initiatePayment = async (req: AuthRequest, res: Response) => {
       });
       
       const d = new Date(newOrder.createdAt);
-      const orderNumber = `SRISHTIQUE-${d.getFullYear()}${String(d.getMonth()+1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${newOrder.id.toString().padStart(5, '0')}`;
+      const orderNumber = `DK-${d.getFullYear()}${String(d.getMonth()+1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${newOrder.id.toString().padStart(5, '0')}`;
       
       await tx.order.update({
         where: { id: newOrder.id },

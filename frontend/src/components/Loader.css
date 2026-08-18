@@ -11,27 +11,21 @@
   min-height: 100vh;
   position: fixed;
   inset: 0;
-  background-color: var(--cream);
+  background-color: var(--primary);
   z-index: 9999;
 }
 
 .app-loader-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--maroon);
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-  text-transform: lowercase;
+  margin-bottom: 24px;
   animation: pulse 1.5s infinite ease-in-out;
 }
 
 .app-spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid rgba(235, 176, 85, 0.15);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
   border-radius: 50%;
-  border-top-color: var(--maroon);
+  border-top-color: var(--accent-gold);
   animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
 }
 

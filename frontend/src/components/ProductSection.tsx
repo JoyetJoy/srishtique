@@ -1,6 +1,11 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { getImageUrl } from '../utils/imageUrl';
 import { useWishlist } from '../context/WishlistContext';
+import { useCart } from '../context/CartContext';
+import CheckoutDrawer from './CheckoutDrawer';
+import toast from 'react-hot-toast';
+import FadeIn from './FadeIn';
 import './ProductSection.css';
 import OrnamentDivider from './OrnamentDivider';
 
@@ -32,8 +37,56 @@ interface ProductSectionProps {
 
 
 export const ProductCard = ({ product }: { product: Product }) => {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const isWishlisted = isInWishlist(product.id);
+  const [isCheckoutDrawerOpen, setIsCheckoutDrawerOpen] = useState(false);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (product.variantId) {
+      addToCart(
+        product,
+        product.size || '',
+        product.color || '',
+        1,
+        product.variantId,
+        product.price,
+        product.originalPrice
+      );
+      toast.success(`${product.name} added to cart!`);
+    } else {
+      navigate(`/product/${product.id}`);
+    }
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (product.variantId) {
+      const token = localStorage.getItem('dk_exporting_token');
+      if (!token) {
+        navigate('/guest-login', {
+          state: {
+            directBuy: {
+              productVariantId: product.variantId,
+              quantity: 1,
+              price: product.price,
+              productName: product.name,
+              color: product.color || '',
+              size: product.size || '',
+              image: product.image || ''
+            }
+          }
+        });
+        return;
+      }
+      
+      setIsCheckoutDrawerOpen(true);
+    } else {
+      navigate(`/product/${product.id}?buy=true`);
+    }
+  };
 
   return (
     <div className="product-card">
@@ -59,7 +112,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
             </svg>
           </button>
           <Link to={`/product/${product.id}`} className="quick-view-btn">
-            VIEW PRODUCT
+            VIEW DETAILS
           </Link>
         </div>
       </div>
@@ -73,7 +126,26 @@ export const ProductCard = ({ product }: { product: Product }) => {
             <span className="product-original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
           )}
         </div>
+        <div className="product-card-buttons">
+          <button className="card-add-to-cart" onClick={handleAddToCart}>
+            ADD TO CART
+          </button>
+          <button className="card-buy-now" onClick={handleBuyNow}>
+            BUY NOW
+          </button>
+        </div>
       </div>
+      
+      <CheckoutDrawer 
+        isOpen={isCheckoutDrawerOpen} 
+        onClose={() => setIsCheckoutDrawerOpen(false)} 
+        product={{...product, images: [product.image]}} 
+        variantId={product.variantId || 0} 
+        quantity={1} 
+        price={product.price || 0} 
+        color={product.color || ''} 
+        size={product.size || ''} 
+      />
     </div>
   );
 };
@@ -106,8 +178,10 @@ const ProductSection = ({ title, subtitle, eyebrow, description, products, viewA
           </div>
         )}
         <div className={`product-grid ${products.length < (columns || 5) ? 'centered-grid' : ''}`} style={columns ? { '--desktop-cols': columns } as React.CSSProperties : undefined}>
-          {products.map(p => (
-            <ProductCard key={p.id} product={p} />
+          {products.map((p, index) => (
+            <FadeIn key={p.id} delay={0.05 * index} direction="up" duration={0.6} className="h-full">
+              <ProductCard product={p} />
+            </FadeIn>
           ))}
         </div>
         {viewAllLink && centered && (

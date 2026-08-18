@@ -62,8 +62,8 @@ const HeroBanner = () => {
         >
           <img src={getImageUrl(slide.imageUrl)} alt={`Banner ${index + 1}`} className="hero-full-img" />
           
-          {/* Dark gradient overlay on mobile to make text readable */}
-          <div className="hero-mobile-overlay"></div>
+          {/* Dark overlay to make text readable */}
+          <div className="hero-overlay"></div>
           
           {/* Text Overlay */}
           <div className="hero-overlay-container container">

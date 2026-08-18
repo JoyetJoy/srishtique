@@ -326,8 +326,8 @@
 }
 
 .coupon-apply-btn {
-  background: var(--maroon, #80011F);
-  color: var(--text-main);
+  background: var(--primary);
+  color: #ffffff;
   border: none;
   border-radius: 4px;
   padding: 0 16px;
@@ -338,8 +338,8 @@
 
 .checkout-btn {
   width: 100%;
-  background: var(--maroon, #80011F);
-  color: var(--text-main);
+  background: var(--primary);
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   padding: 16px;

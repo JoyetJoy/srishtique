@@ -6,10 +6,14 @@ import ProductSection from '../components/ProductSection';
 import OccasionSection from '../components/OccasionSection';
 import InstagramSection from '../components/InstagramSection';
 import FadeIn from '../components/FadeIn';
+import AboutUsSection from '../components/AboutUsSection';
+import TestimonialsSection from '../components/TestimonialsSection';
+import Loader from '../components/Loader';
 
 const HomePage = () => {
   const [newArrivals, setNewArrivals] = useState<any[]>([]);
   const [trending, setTrending] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/public/products`)
@@ -40,8 +44,13 @@ const HomePage = () => {
         setNewArrivals(newArrivalsData.map(formatProduct).slice(0, 5));
         setTrending(trendingData.map(formatProduct));
       })
-      .catch(err => console.error('Failed to fetch products', err));
+      .catch(err => console.error('Failed to fetch products', err))
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) {
+    return <Loader fullScreen />;
+  }
 
   return (
     <div className="home-page">
@@ -51,16 +60,27 @@ const HomePage = () => {
         defaultDescription="Discover premium cashew nuts, black pepper, and cardamom at DK Exporting."
       />
       <HeroBanner />
-      <FadeIn delay={0.1}>
+      <FadeIn delay={0.1} direction="left">
         <OccasionSection />
       </FadeIn>
-      <FadeIn delay={0.1}>
-        <ProductSection
-          title="DK Exporting Collections"
-          subtitle="Explore our newly launched collections"
-          products={newArrivals}
-          viewAllLink="/new-arrivals"
-        />
+      {newArrivals.length > 0 && (
+        <FadeIn delay={0.1} direction="up">
+          <section className="jewellery-section">
+            <div className="jewellery-container">
+              <h2 className="jewellery-title">New Arrivals</h2>
+              <p className="jewellery-subtitle">Explore our newly launched collections</p>
+              <ProductSection
+                title=""
+                products={newArrivals}
+                viewAllLink="/new-arrivals"
+                columns={4}
+              />
+            </div>
+          </section>
+        </FadeIn>
+      )}
+      <FadeIn delay={0.2} direction="right">
+        <AboutUsSection />
       </FadeIn>
       {trending.length > 0 && (
         <FadeIn delay={0.1}>
@@ -79,7 +99,11 @@ const HomePage = () => {
         </FadeIn>
       )}
 
-      <FadeIn delay={0.1}>
+      <FadeIn delay={0.1} direction="up">
+        <TestimonialsSection />
+      </FadeIn>
+
+      <FadeIn delay={0.2} direction="left">
         <InstagramSection products={newArrivals} />
       </FadeIn>
     </div>

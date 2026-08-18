@@ -96,8 +96,8 @@
 }
 
 .auth-btn {
-  background: var(--maroon);
-  color: var(--text-main);
+  background: var(--primary);
+  color: #ffffff;
   border: none;
   padding: 14px;
   border-radius: 4px;
@@ -109,7 +109,7 @@
 }
 
 .auth-btn:hover {
-  background: var(--maroon-dark);
+  background: #3a2517;
 }
 
 .auth-btn:disabled {

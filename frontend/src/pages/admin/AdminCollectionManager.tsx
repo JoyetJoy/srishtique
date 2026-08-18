@@ -12,7 +12,6 @@ const AdminCollectionManager = ({ type, title }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState<'CLOTHING' | 'ORNAMENT'>('CLOTHING');
 
   useEffect(() => {
     fetchProducts();
@@ -33,7 +32,7 @@ const AdminCollectionManager = ({ type, title }: Props) => {
   };
 
   const currentProducts = Array.isArray(products) ? products.filter(p => p[type === 'trending' ? 'isTrending' : 'isNewArrival']) : [];
-  const displayProducts = currentProducts.filter(p => activeTab === 'CLOTHING' ? (p.type === 'CLOTHING' || !p.type) : p.type === 'ORNAMENT');
+  const displayProducts = currentProducts;
 
   const openModal = () => {
     setSelectedProductIds(currentProducts.map(p => p.id));
@@ -68,8 +67,7 @@ const AdminCollectionManager = ({ type, title }: Props) => {
   };
 
   const filteredSearchProducts = products.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
-    (activeTab === 'CLOTHING' ? (p.type === 'CLOTHING' || !p.type) : p.type === 'ORNAMENT')
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -79,22 +77,7 @@ const AdminCollectionManager = ({ type, title }: Props) => {
         <button className="admin-btn" onClick={openModal}>Manage Products</button>
       </div>
 
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '20px', borderBottom: '1px solid #e2e8f0' }}>
-        <button 
-          style={{ padding: '8px 16px', background: 'none', border: 'none', borderBottom: activeTab === 'CLOTHING' ? '2px solid var(--maroon)' : '2px solid transparent', color: activeTab === 'CLOTHING' ? 'var(--maroon)' : '#64748b', fontWeight: activeTab === 'CLOTHING' ? 600 : 400, cursor: 'pointer' }}
-          onClick={() => setActiveTab('CLOTHING')}
-        >
-          Clothing
-        </button>
-        {type !== 'new-arrivals' && (
-          <button 
-            style={{ padding: '8px 16px', background: 'none', border: 'none', borderBottom: activeTab === 'ORNAMENT' ? '2px solid var(--maroon)' : '2px solid transparent', color: activeTab === 'ORNAMENT' ? 'var(--maroon)' : '#64748b', fontWeight: activeTab === 'ORNAMENT' ? 600 : 400, cursor: 'pointer' }}
-            onClick={() => setActiveTab('ORNAMENT')}
-          >
-            Jewellery
-          </button>
-        )}
-      </div>
+
 
       <div className="admin-card">
         <table className="admin-table">
@@ -113,12 +96,12 @@ const AdminCollectionManager = ({ type, title }: Props) => {
                 <td>{index + 1}</td>
                 <td>{p.images?.[0] ? <img src={getImageUrl(p.images[0])} alt={p.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
                 <td style={{ fontWeight: 500 }}>{p.name}</td>
-                <td>{p.type || 'CLOTHING'}</td>
+                <td>{p.category?.name || p.type || '-'}</td>
                 <td>₹{p.variants?.[0]?.price || 'N/A'}</td>
               </tr>
             ))}
             {displayProducts.length === 0 && (
-              <tr><td colSpan={5} style={{ textAlign: 'center' }}>No {activeTab.toLowerCase()} products in {title}</td></tr>
+              <tr><td colSpan={5} style={{ textAlign: 'center' }}>No products in {title}</td></tr>
             )}
           </tbody>
         </table>
@@ -128,7 +111,7 @@ const AdminCollectionManager = ({ type, title }: Props) => {
         <div className="admin-modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div className="admin-modal-content" onClick={e => e.stopPropagation()} style={{ width: '600px', maxWidth: '90vw' }}>
             <div className="admin-modal-header">
-              <h4>Manage {title} - {activeTab === 'CLOTHING' ? 'Clothing' : 'Jewellery'}</h4>
+              <h4>Manage {title}</h4>
               <button className="admin-modal-close" onClick={() => setIsModalOpen(false)}>&times;</button>
             </div>
             <form onSubmit={handleSave} className="admin-modal-body">

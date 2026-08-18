@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import toast from 'react-hot-toast';
@@ -29,6 +29,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
   const [isCheckoutDrawerOpen, setIsCheckoutDrawerOpen] = useState(false);
   const [notifySubscribed, setNotifySubscribed] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const availableColors = product?.variants 
     ? Array.from(new Set(product.variants.map((v: any) => v.color))) as string[]
@@ -142,6 +143,41 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
   ) || product?.variants?.[0];
 
   const isOutOfStock = matchingVariant && matchingVariant.stock <= 0;
+
+  // Auto-trigger Buy Now if URL has ?buy=true
+  useEffect(() => {
+    if (product && matchingVariant) {
+      const searchParams = new URLSearchParams(location.search);
+      if (searchParams.get('buy') === 'true') {
+        // Remove query param to prevent re-triggering on refresh
+        navigate(location.pathname, { replace: true });
+        
+        if (isOutOfStock) {
+          toast.error('This variant is currently out of stock');
+          return;
+        }
+
+        const token = localStorage.getItem('dk_exporting_token');
+        if (!token) {
+          navigate('/guest-login', {
+            state: {
+              directBuy: {
+                productVariantId: matchingVariant.id,
+                quantity: quantity,
+                price: matchingVariant.price,
+                productName: product.name,
+                color: selectedColorName || matchingVariant.color,
+                size: activeSize,
+                image: product.images?.[0] || ''
+              }
+            }
+          });
+        } else {
+          setIsCheckoutDrawerOpen(true);
+        }
+      }
+    }
+  }, [product, matchingVariant, location.search, navigate, quantity, selectedColorName, activeSize, isOutOfStock]);
 
   useEffect(() => {
     if (matchingVariant?.id) {

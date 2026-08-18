@@ -17,6 +17,24 @@ const TestimonialsSection = () => {
       .catch(err => console.error('Failed to fetch testimonials', err));
   }, []);
 
+  // Auto-scroll animation
+  useEffect(() => {
+    if (reviews.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+           scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+           scrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+        }
+      }
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, [reviews]);
+
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const scrollAmount = 320;
@@ -32,7 +50,7 @@ const TestimonialsSection = () => {
       <div className="container testimonials-split-container">
         <div className="testimonials-left">
           <div className="quote-mark quote-left">“</div>
-          <h2 className="testimonials-heading">Hear from Our<br/>Customers</h2>
+          <h2 className="testimonials-heading">Happy Customers<br/>Review</h2>
           <p className="testimonials-subheading">Real experiences, real smiles</p>
         </div>
         

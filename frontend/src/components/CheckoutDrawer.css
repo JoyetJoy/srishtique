@@ -209,8 +209,8 @@
 .checkout-pay-btn {
   width: 100%;
   padding: 16px;
-  background: var(--maroon, #80011F);
-  color: var(--text-main);
+  background: var(--primary);
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -239,8 +239,8 @@
 }
 
 .checkout-drawer-footer .login-cta-btn {
-  background: var(--maroon, #80011F);
-  color: var(--text-main);
+  background: var(--primary);
+  color: #ffffff;
   text-decoration: none;
   text-align: center;
   box-sizing: border-box;

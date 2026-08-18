@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import StaticSEO from '../components/StaticSEO';
 import { useSiteSettings } from '../context/SiteSettingsContext';
+import OrnamentDivider from '../components/OrnamentDivider';
 import './AboutUsPage.css';
 
 const AboutUsPage = () => {
@@ -11,18 +12,19 @@ const AboutUsPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const defaultHeroImage = "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070&auto=format&fit=crop";
+
   return (
     <div className="about-page">
       <StaticSEO pagePath="/about-us" defaultTitle="About Us - DK Exporting" defaultDescription="Learn more about DK Exporting and our mission to provide premium spices and nuts." />
       {/* Hero Section */}
       <section className="about-hero" style={{ 
-        backgroundImage: aboutHeroImage 
-          ? `linear-gradient(rgba(15, 10, 6, 0.6), rgba(15, 10, 6, 0.8)), url(${aboutHeroImage})` 
-          : 'linear-gradient(rgba(15, 10, 6, 0.8), rgba(15, 10, 6, 0.9))' 
+        backgroundImage: `linear-gradient(rgba(15, 10, 6, 0.6), rgba(15, 10, 6, 0.8)), url(${aboutHeroImage || defaultHeroImage})`
       }}>
         <div className="about-hero-content">
           <h1>Direct From Nature, Delivered Worldwide</h1>
-          <p>
+          <OrnamentDivider />
+          <p style={{ marginTop: '24px' }}>
             DK Exporting is more than just trade. It is a celebration of premium quality 
             spices and nuts, carefully selected to deliver authentic flavors globally.
           </p>
@@ -34,15 +36,12 @@ const AboutUsPage = () => {
         <div className="container">
           <div className="about-story-grid">
             <div className="about-story-image">
-              {aboutStoryImage ? (
-                <img 
-                  src={aboutStoryImage} 
-                  alt="DK Exporting Story" 
-                  loading="lazy"
-                />
-              ) : (
-                <div style={{ width: '100%', height: '100%', aspectRatio: '3/4', background: 'var(--cream-dark)' }}></div>
-              )}
+              <img 
+                src={aboutStoryImage || "https://images.unsplash.com/photo-1599909618193-4a11fbd4f74d?q=80&w=1964&auto=format&fit=crop"} 
+                alt="DK Exporting Story" 
+                loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }}
+              />
             </div>
             <div className="about-story-text">
               <h2>Our Story</h2>

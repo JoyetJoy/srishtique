@@ -16,6 +16,7 @@ interface SiteSettings {
   brandWhatsapp: string;
   aboutHeroImage: string;
   aboutStoryImage: string;
+  isLoading: boolean;
 }
 
 const defaults: SiteSettings = {
@@ -32,6 +33,7 @@ const defaults: SiteSettings = {
   brandWhatsapp: '',
   aboutHeroImage: '',
   aboutStoryImage: '',
+  isLoading: true,
 };
 
 
@@ -74,7 +76,9 @@ export const SiteSettingsProvider = ({ children }: { children: ReactNode }) => {
         })
         .catch(() => {}) // silently fall back to defaults
     );
-    Promise.allSettled(fetches);
+    Promise.allSettled(fetches).finally(() => {
+      setSettings(prev => ({ ...prev, isLoading: false }));
+    });
   }, []);
 
   return (

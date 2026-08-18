@@ -144,27 +144,29 @@
 }
 
 .size-btn {
-  min-width: 44px;
-  height: 36px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border);
-  font-size: 12px;
-  font-weight: 500;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text-dark);
-  background: var(--text-light);
+  background: transparent;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .size-btn:hover {
-  border-color: var(--text-mid);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .size-btn.active {
-  background: var(--maroon);
-  border-color: var(--maroon);
-  color: var(--text-main);
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
 }
 
 /* ─── Actions ─── */
@@ -224,10 +226,10 @@
 }
 
 .btn-add-cart {
-  background: var(--text-light);
-  border: 2px solid var(--maroon);
-  color: var(--maroon);
-  box-shadow: 0 4px 16px rgba(128, 1, 31, 0.12), 0 2px 4px rgba(128, 1, 31, 0.04);
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .btn-add-cart:hover {
@@ -236,16 +238,16 @@
 }
 
 .btn-buy-now {
-  background: var(--maroon);
+  background: var(--primary);
   border: none;
-  color: var(--text-main);
-  box-shadow: 0 4px 16px rgba(128, 1, 31, 0.15);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .btn-buy-now:hover {
-  background: var(--maroon-dark);
+  background: #3a2517; /* slightly darker primary */
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(128, 1, 31, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 /* ─── Accordions ─── */

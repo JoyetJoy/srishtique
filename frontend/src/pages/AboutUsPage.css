@@ -10,7 +10,8 @@
   justify-content: center;
   background-color: var(--pink-bg);
   background-size: cover;
-  background-position: center 30%;
+  background-position: center center;
+  background-attachment: fixed;
   text-align: center;
   color: var(--bg-main);
   padding: 0 20px;
@@ -18,10 +19,11 @@
 
 .about-hero-content h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 48px;
+  font-size: clamp(36px, 5vw, 56px);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   letter-spacing: 1px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .about-hero-content p {

@@ -1,6 +1,6 @@
 .plp-page {
-  padding: 16px 0 80px;
-  background: var(--var(--text-main));
+  padding: 64px 0 80px;
+  background: var(--bg-main);
 }
 
 .plp-layout {

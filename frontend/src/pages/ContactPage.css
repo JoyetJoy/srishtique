@@ -121,8 +121,8 @@
 }
 
 .submit-btn {
-  background: var(--maroon);
-  color: var(--text-main);
+  background: var(--primary);
+  color: #ffffff;
   border: none;
   padding: 16px;
   border-radius: 8px;
@@ -134,7 +134,7 @@
 }
 
 .submit-btn:hover {
-  background: var(--maroon-dark);
+  background: #3a2517;
   transform: translateY(-2px);
 }
 

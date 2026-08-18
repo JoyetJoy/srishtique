@@ -36,9 +36,15 @@
   }
 }
 
-/* Translucent dark gradient overlay on mobile to make text readable */
-.hero-mobile-overlay {
-  display: none;
+/* Translucent dark overlay to make text readable */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 
 /* ─── Hero Text Overlay (from Figma specs) ─── */
@@ -171,9 +177,9 @@
     align-items: flex-start;
     justify-content: center; /* Vertically center the text */
   }
-  .hero-mobile-overlay {
-    width: 85%;
-    background: linear-gradient(to right, rgba(33, 21, 12, 0.95) 0%, rgba(33, 21, 12, 0.7) 60%, transparent 100%);
+  .hero-overlay {
+    width: 100%;
+    background: linear-gradient(to right, rgba(33, 21, 12, 0.95) 0%, rgba(33, 21, 12, 0.7) 60%, rgba(0,0,0,0.4) 100%);
   }
   .hero-subtitle {
     font-size: 12px;
