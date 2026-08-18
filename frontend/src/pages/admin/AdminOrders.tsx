@@ -571,8 +571,7 @@ const AdminOrders = () => {
                               <div>
                                 <div style={{ fontWeight: 600, color: '#1e293b', fontSize: '14px', marginBottom: '4px' }}>{item.productVariant.product.name}</div>
                                 <div style={{ fontSize: '13px', color: '#64748b' }}>
-                                  <span style={{ display: 'inline-block', width: '12px', height: '12px', borderRadius: '50%', background: item.productVariant.color, border: '1px solid #cbd5e1', verticalAlign: 'middle', marginRight: '6px' }}></span>
-                                  {item.productVariant.color} • Size: {item.productVariant.size}
+                                  Size: {item.productVariant.size}
                                 </div>
                                 <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>₹{item.priceAtPurchase.toLocaleString('en-IN')} each</div>
                               </div>

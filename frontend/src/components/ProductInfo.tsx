@@ -331,23 +331,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
       </div>
       <p className="product-tax-note">inclusive of all taxes</p>
 
-      {/* Colors */}
-      {colors.filter(c => c.name).length > 0 && (
-        <>
-          <span className="selector-label">Colors</span>
-          <div className="color-options">
-            {colors.filter(c => c.name).map((color, index) => (
-              <button 
-                key={index}
-                className={`color-btn ${activeColor === index ? 'active' : ''}`}
-                style={{ backgroundColor: color.hex }}
-                onClick={() => setActiveColor(index)}
-                aria-label={color.name}
-              />
-            ))}
-          </div>
-        </>
-      )}
+
 
       {/* Sizes */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

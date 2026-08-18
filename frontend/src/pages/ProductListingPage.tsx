@@ -3,7 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import SidebarFilter from '../components/SidebarFilter';
 import { ProductCard } from '../components/ProductSection';
 import Loader from '../components/Loader';
-import CategorySection from '../components/CategorySection';
+
 import SEO from '../components/SEO';
 import { getImageUrl } from '../utils/imageUrl';
 import './ProductListingPage.css';

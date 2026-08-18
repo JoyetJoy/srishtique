@@ -15,11 +15,10 @@ interface CheckoutDrawerProps {
   variantId: number;
   quantity: number;
   price: number;
-  color: string;
   size: string;
 }
 
-const CheckoutDrawer = ({ isOpen, onClose, product, variantId, quantity, price, color, size }: CheckoutDrawerProps) => {
+const CheckoutDrawer = ({ isOpen, onClose, product, variantId, quantity, price, size }: CheckoutDrawerProps) => {
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
   const { initiateCheckout, loading } = useCheckout();
@@ -80,7 +79,7 @@ const CheckoutDrawer = ({ isOpen, onClose, product, variantId, quantity, price, 
             <img src={productImage} alt={product?.name} className="checkout-item-img" />
             <div className="checkout-item-info">
               <h4>{product?.name}</h4>
-              <p>Size: {size} | Color: {color}</p>
+              <p>Size: {size}</p>
               <p>Qty: {quantity}</p>
               <div className="checkout-item-price">₹{price}</div>
             </div>

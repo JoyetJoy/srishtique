@@ -102,7 +102,7 @@ const OrdersPage = () => {
                         />
                         <div style={{ flex: 1 }}>
                           <h4 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-dark)', margin: '0 0 2px 0' }}>{item.productVariant?.product?.name}</h4>
-                          <span style={{ fontSize: '12px', color: '#64748b' }}>Size: {item.productVariant?.size} | Color: {item.productVariant?.color} | Qty: {item.quantity}</span>
+                          <span style={{ fontSize: '12px', color: '#64748b' }}>Size: {item.productVariant?.size} | Qty: {item.quantity}</span>
                         </div>
                         <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-dark)' }}>
                           ₹{((item.priceAtPurchase || 0) * (item.quantity || 1)).toLocaleString('en-IN')}

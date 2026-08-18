@@ -52,9 +52,6 @@ const AdminProductForm = () => {
   const [showBulkGen, setShowBulkGen] = useState(false);
   const [bulkSizes, setBulkSizes] = useState<string[]>([]);
   const [bulkSizeInput, setBulkSizeInput] = useState('');
-  const [bulkColors, setBulkColors] = useState<{name: string; hex: string}[]>([]);
-  const [bulkColorName, setBulkColorName] = useState('');
-  const [bulkColorHex, setBulkColorHex] = useState('#000000');
   const [bulkPrice, setBulkPrice] = useState('');
   const [bulkOriginalPrice, setBulkOriginalPrice] = useState('');
   const [bulkStock, setBulkStock] = useState('');
@@ -182,42 +179,29 @@ const AdminProductForm = () => {
   };
   const removeBulkSize = (s: string) => setBulkSizes(bulkSizes.filter(x => x !== s));
 
-  const addBulkColor = () => {
-    const trimmedName = bulkColorName.trim() || bulkColorHex;
-    if (bulkColorHex && !bulkColors.some(c => c.hex === bulkColorHex)) {
-      setBulkColors([...bulkColors, { name: trimmedName, hex: bulkColorHex }]);
-    }
-    setBulkColorName('');
-    setBulkColorHex('#000000');
-  };
-  const removeBulkColor = (hex: string) => setBulkColors(bulkColors.filter(c => c.hex !== hex));
-
   const generateBulkVariants = () => {
     if (!bulkPrice) { toast.error('Please enter a common price'); return; }
     if (!bulkStock) { toast.error('Please enter a common stock'); return; }
-    if (bulkSizes.length === 0 && bulkColors.length === 0) { toast.error('Please add at least one size or color'); return; }
+    if (bulkSizes.length === 0) { toast.error('Please add at least one size'); return; }
 
     const sizesToUse = bulkSizes.length > 0 ? bulkSizes : [''];
-    const colorsToUse = bulkColors.length > 0 ? bulkColors : [{ name: '', hex: '' }];
 
     const generated: any[] = [];
     for (const size of sizesToUse) {
-      for (const color of colorsToUse) {
-        generated.push({
-          size,
-          color: color.hex,
-          price: bulkPrice,
-          originalPrice: bulkOriginalPrice,
-          stock: bulkStock,
-          sku: '',
-          existingImages: [],
-          imageFiles: []
-        });
-      }
+      generated.push({
+        size,
+        color: '',
+        price: bulkPrice,
+        originalPrice: bulkOriginalPrice,
+        stock: bulkStock,
+        sku: '',
+        existingImages: [],
+        imageFiles: []
+      });
     }
 
     // Replace the single empty default variant, or append to existing
-    const hasOnlyEmptyDefault = variants.length === 1 && !variants[0].size && !variants[0].color && !variants[0].price;
+    const hasOnlyEmptyDefault = variants.length === 1 && !variants[0].size && !variants[0].price;
     setVariants(hasOnlyEmptyDefault ? generated : [...variants, ...generated]);
     toast.success(`Generated ${generated.length} variant${generated.length > 1 ? 's' : ''}!`);
     setShowBulkGen(false);
@@ -553,7 +537,7 @@ const AdminProductForm = () => {
             {showBulkGen && (
               <div style={{ background: '#fdf2f4', border: '1px solid #e2c4ca', borderRadius: '8px', padding: '20px', marginBottom: '20px' }}>
                 <h6 style={{ margin: '0 0 4px 0', fontSize: '15px', color: '#0f172a' }}>Bulk Variant Generator</h6>
-                <p style={{ margin: '0 0 16px 0', fontSize: '13px', color: '#64748b' }}>Add sizes & colors below, then generate all combinations at once.</p>
+                <p style={{ margin: '0 0 16px 0', fontSize: '13px', color: '#64748b' }}>Add sizes below, then generate all variants at once.</p>
 
                 {/* Sizes */}
                 <div style={{ marginBottom: '16px' }}>
@@ -581,34 +565,6 @@ const AdminProductForm = () => {
                   </div>
                 </div>
 
-                {/* Colors */}
-                <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', marginBottom: '6px', fontWeight: 600, fontSize: '13px', color: '#334155' }}>Colors</label>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap' }}>
-                    <input type="color" value={bulkColorHex} onChange={e => setBulkColorHex(e.target.value)} style={{ width: '38px', height: '38px', padding: 0, border: '2px solid #e2c4ca', borderRadius: '6px', cursor: 'pointer', background: 'transparent' }} />
-                    <input
-                      type="text"
-                      className="admin-input"
-                      placeholder="Color name (optional)"
-                      value={bulkColorName}
-                      onChange={e => setBulkColorName(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addBulkColor(); } }}
-                      style={{ maxWidth: '180px' }}
-                    />
-                    <button type="button" onClick={addBulkColor} style={{ padding: '8px 14px', background: '#80011F', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, fontSize: '13px', whiteSpace: 'nowrap' }}>+ Add</button>
-                  </div>
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    {bulkColors.map(c => (
-                      <span key={c.hex} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: '#fff', border: '1px solid #e2c4ca', borderRadius: '20px', fontSize: '13px', fontWeight: 500, color: '#0f172a' }}>
-                        <span style={{ width: '16px', height: '16px', borderRadius: '50%', background: c.hex, border: '1px solid #ddd', flexShrink: 0 }} />
-                        {c.name}
-                        <button type="button" onClick={() => removeBulkColor(c.hex)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: '#94a3b8', padding: 0, lineHeight: 1 }}>✕</button>
-                      </span>
-                    ))}
-                    {bulkColors.length === 0 && <span style={{ fontSize: '12px', color: '#94a3b8', fontStyle: 'italic' }}>No colors added (variants will have no color)</span>}
-                  </div>
-                </div>
-
                 {/* Common Price & Stock */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '16px' }}>
                   <div>
@@ -628,7 +584,7 @@ const AdminProductForm = () => {
                 {/* Preview & Generate */}
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                   <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 500 }}>
-                    Will generate: <strong style={{ color: '#0f172a' }}>{Math.max(1, bulkSizes.length) * Math.max(1, bulkColors.length)}</strong> variants
+                    Will generate: <strong style={{ color: '#0f172a' }}>{Math.max(1, bulkSizes.length)}</strong> variants
                   </span>
                   <div style={{ flex: 1 }} />
                   <button type="button" onClick={applyPriceToAll} style={{ padding: '8px 14px', background: '#fff', color: '#334155', border: '1px solid #cbd5e1', borderRadius: '6px', cursor: 'pointer', fontWeight: 500, fontSize: '12px' }} title="Apply the price/original price above to all existing variants">Apply Price to All</button>
@@ -650,13 +606,7 @@ const AdminProductForm = () => {
                   <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Size (Optional)</label>
                   <input type="text" className="admin-input" placeholder="e.g. M" value={variant.size} onChange={e => handleVariantChange(index, 'size', e.target.value)} />
                 </div>
-                <div>
-                  <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Color (Optional)</label>
-                  <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #cbd5e1', borderRadius: '6px', background: 'white', overflow: 'hidden' }}>
-                    <input type="color" value={variant.color?.startsWith('#') ? variant.color : '#000000'} onChange={e => handleVariantChange(index, 'color', e.target.value)} style={{ width: '36px', height: '36px', padding: '0', border: 'none', background: 'transparent', cursor: 'pointer', flexShrink: 0 }} title="Select color" />
-                    <input type="text" style={{ border: 'none', outline: 'none', padding: '10px', width: '100%', fontSize: '14px', color: '#334155' }} placeholder="e.g. #FF0000 or Red" value={variant.color} onChange={e => handleVariantChange(index, 'color', e.target.value)} />
-                  </div>
-                </div>
+
                 <div>
                   <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Price *</label>
                   <input type="number" className="admin-input" placeholder="₹" value={variant.price} onChange={e => handleVariantChange(index, 'price', e.target.value)} required />
@@ -677,7 +627,7 @@ const AdminProductForm = () => {
                   <button type="button" onClick={() => removeVariant(index)} style={{ padding: '10px 16px', background: '#fee2e2', color: '#ef4444', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 600, width: '100%' }}>Remove</button>
                 </div>
                 <div style={{ gridColumn: '1 / -1', marginTop: '4px' }}>
-                  <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Variant Images (Optional) - Shown when this color is selected</label>
+                  <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Variant Images (Optional)</label>
                   <input 
                     type="file" 
                     className="admin-input" 

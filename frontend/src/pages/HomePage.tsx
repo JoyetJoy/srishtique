@@ -1,5 +1,5 @@
 import HeroBanner from '../components/HeroBanner';
-import CategorySection from '../components/CategorySection';
+
 import StaticSEO from '../components/StaticSEO';
 import { useState, useEffect } from 'react';
 import ProductSection from '../components/ProductSection';

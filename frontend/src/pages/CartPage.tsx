@@ -272,7 +272,6 @@ const CartPage = () => {
                     <div className="item-details">
                       <h3 className="item-title">{item.name}</h3>
                       <div className="item-variant">
-                        <span>{item.color}</span>
                         <span>{item.size}</span>
                       </div>
                       
