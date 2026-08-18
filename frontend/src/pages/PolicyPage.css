@@ -1,0 +1,203 @@
+.policy-page {
+  padding: 80px 20px;
+  background-color: #faf9f8;
+  min-height: 80vh;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Subtle background accent */
+.policy-page::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 500px;
+  background: radial-gradient(circle, rgba(147, 51, 62, 0.05) 0%, rgba(250, 249, 248, 0) 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.policy-container {
+  max-width: 850px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 60px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0,0,0,0.02);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.policy-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 40px;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.policy-title::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #93333e;
+  border-radius: 2px;
+}
+
+.policy-content {
+  color: #4a4a4a;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.policy-content h2 {
+  color: #1a1a1a;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.policy-content h2::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: #93333e;
+  border-radius: 50%;
+}
+
+.policy-content p {
+  margin-bottom: 24px;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.policy-content p:hover {
+  color: #222;
+}
+
+.policy-content ul {
+  padding-left: 20px;
+  margin-bottom: 30px;
+  background: #fffafa;
+  padding: 24px 24px 24px 40px;
+  border-radius: 12px;
+  border: 1px solid #f2e6e7;
+}
+
+.policy-content li {
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.policy-content li::marker {
+  color: #93333e;
+}
+
+/* FAQs Specific Styling */
+.faq-item {
+  margin-bottom: 20px;
+  background: var(--text-light);
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.faq-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(147, 51, 62, 0.08);
+  border-color: rgba(147, 51, 62, 0.2);
+}
+
+.faq-question {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.faq-question::before {
+  content: 'Q.';
+  color: #93333e;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.faq-answer {
+  color: #555;
+  line-height: 1.7;
+  padding-left: 35px;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .policy-page {
+    padding: 40px 15px;
+  }
+  
+  .policy-container {
+    padding: 30px 20px;
+    border-radius: 16px;
+  }
+
+  .policy-title {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+  }
+
+  .policy-content h2 {
+    font-size: 1.3rem;
+    margin-top: 40px;
+  }
+
+  .faq-item {
+    padding: 20px;
+  }
+  
+  .faq-answer {
+    padding-left: 0;
+    margin-top: 15px;
+  }
+}
+
+

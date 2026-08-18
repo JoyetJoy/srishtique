@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="DK Exporting — Premium traditional ethnic wear. Explore our curated collection." />
+    <meta name="keywords" content="DK Exporting, ethnic wear, traditional wear, fashion" />
+    <meta property="og:title" content="DK Exporting | Premium Ethnic Wear" />
+    <meta property="og:description" content="Discover timeless ethnic fashion from DK Exporting." />
+    <meta property="og:image" content="/favicon.png" />
+    <title>DK Exporting | Premium Ethnic Wear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Tenor+Sans&display=swap" rel="stylesheet">
+    <style>
+      #global-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #310D25;
+        z-index: 99999;
+      }
+      .loader-logo {
+        width: 220px;
+        height: auto;
+        margin-bottom: 32px;
+        opacity: 0;
+        animation: fadeInLogo 0.8s ease forwards;
+      }
+      @keyframes fadeInLogo {
+        to { opacity: 1; }
+      }
+      .spinner {
+        width: 36px;
+        height: 36px;
+        border: 2.5px solid rgba(235, 176, 85, 0.15);
+        border-radius: 50%;
+        border-top-color: #ebb055;
+        animation: spin 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div id="global-loader">
+        <img src="/favicon.png" alt="DK Exporting" class="loader-logo" />
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

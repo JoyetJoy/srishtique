@@ -1,0 +1,71 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.logo:hover {
+  opacity: 0.85;
+}
+
+/* ── Base image defaults ── */
+.logo-img {
+  display: block;
+  filter: none;
+  object-fit: contain;
+}
+
+/* ══════════════════════════════════════════
+   HEADER LOGO  (variant = header-light)
+   Figma spec: width 231px, height 80px
+   ══════════════════════════════════════════ */
+.logo--header-light .logo-img {
+  width: 190px;
+  height: 66px;
+  object-fit: contain;
+}
+
+/* Scale down on small screens */
+@media (max-width: 900px) {
+  .logo--header-light .logo-img {
+    width: 140px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo--header-light .logo-img {
+    width: 120px;
+    height: 42px;
+  }
+}
+
+/* ══════════════════════════════════════════
+   FOOTER LOGO  (variant = light)
+   ══════════════════════════════════════════ */
+.logo--light .logo-img {
+  height: 60px;
+  width: auto;
+}
+
+/* ══════════════════════════════════════════
+   DARK LOGO  (variant = dark)
+   ══════════════════════════════════════════ */
+.logo--dark .logo-img {
+  height: 48px;
+  width: auto;
+}
+
+/* ── Generic size modifiers (apply to non-header variants) ── */
+.logo--sm .logo-img  { height: 36px; }
+.logo--md .logo-img  { height: 52px; }
+.logo--lg .logo-img  { height: 70px; }
+
+/* header-light overrides the size modifiers above */
+.logo--header-light.logo--sm .logo-img,
+.logo--header-light.logo--md .logo-img,
+.logo--header-light.logo--lg .logo-img {
+  width: 190px;
+  height: 66px;
+}

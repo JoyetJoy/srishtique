@@ -1,0 +1,12 @@
+.admin-order-details-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .admin-order-details-layout {
+    grid-template-columns: 1fr;
+  }
+}

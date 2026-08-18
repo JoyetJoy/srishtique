@@ -1,0 +1,403 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  SUPER_ADMIN
+}
+
+model User {
+  id              Int      @id @default(autoincrement())
+  email           String?  @unique
+  password        String?
+  name            String?
+  phone           String   @unique
+  address         String?  @db.Text
+  role            Role     @default(USER)
+  otp             String?
+  otpExpiry       DateTime?
+  isPhoneVerified Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  orders          Order[]
+  wishlist        Wishlist[]
+  addresses       Address[]
+  cartAbandonments CartAbandonment[]
+  ratings           OrderRating[]
+  referrals         Referral[]
+  stockNotifications StockNotification[]
+}
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  street    String
+  city      String
+  state     String
+  country   String
+  pincode   String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CategoryType {
+  CLOTHING
+  ORNAMENT
+  SPICE
+  NUT
+}
+
+enum ProductType {
+  CLOTHING
+  ORNAMENT
+  SPICE
+  NUT
+}
+
+model SizeChartMaster {
+  id        Int        @id @default(autoincrement())
+  name      String
+  data      Json
+  categories Category[]
+  products   Product[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  sizeChart String?
+  sizeChartMasterId Int?
+  sizeChartMaster   SizeChartMaster? @relation(fields: [sizeChartMasterId], references: [id])
+  image     String?
+  type      CategoryType @default(CLOTHING)
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?  @db.Text
+  products        Product[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Occasion {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  image     String?
+  heroImage String?
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?  @db.Text
+  products        Product[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Product {
+  id              Int         @id @default(autoincrement())
+  name            String
+  description     String      @db.Text
+  productDetails  Json?
+  sizeAndFit      String?
+  materialAndCare Json?
+  specifications  Json?
+  images          Json
+  sizeChart       String?
+  sizeChartMasterId Int?
+  sizeChartMaster   SizeChartMaster? @relation(fields: [sizeChartMasterId], references: [id])
+  type            ProductType @default(CLOTHING)
+  
+  categoryId      Int
+  category        Category    @relation(fields: [categoryId], references: [id])
+  
+  occasions       Occasion[]
+
+  isNewArrival    Boolean     @default(false)
+  isTrending      Boolean     @default(false)
+  isActive        Boolean     @default(true)
+
+  variants        ProductVariant[]
+  wishlistedBy    Wishlist[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?  @db.Text
+
+  @@index([categoryId])
+  @@index([isNewArrival])
+  @@index([isTrending])
+  @@index([type])
+}
+
+model ProductVariant {
+  id              Int      @id @default(autoincrement())
+  productId       Int
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size            String   @db.VarChar(50)
+  color           String   @db.VarChar(50)
+  price           Float
+  originalPrice   Float?
+  stock           Int      @default(0)
+  sku             String?  @unique @db.VarChar(100)
+  images          Json?
+  orderItems      OrderItem[]
+  stockNotifications StockNotification[]
+
+  @@unique([productId, size, color])
+  @@index([productId])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id                Int         @id @default(autoincrement())
+  orderNumber       String?     @unique
+  userId            Int
+  user              User        @relation(fields: [userId], references: [id])
+  status            OrderStatus @default(PENDING)
+  totalAmount       Float
+  shippingAddress   Json?
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  shippingMethod    String?
+  trackingNumber    String?
+  items             OrderItem[]
+  rating            OrderRating?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id              Int            @id @default(autoincrement())
+  orderId         Int
+  order           Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productVariantId Int
+  productVariant  ProductVariant @relation(fields: [productVariantId], references: [id])
+  quantity        Int
+  priceAtPurchase Float
+
+  @@index([orderId])
+  @@index([productVariantId])
+}
+
+model OrderRating {
+  id        Int      @id @default(autoincrement())
+  orderId   Int      @unique
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int      // 1-5
+  review    String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Wishlist {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model StockNotification {
+  id               Int            @id @default(autoincrement())
+  userId           Int
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productVariantId Int
+  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  notified         Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+
+  @@unique([userId, productVariantId])
+  @@index([userId])
+  @@index([productVariantId])
+}
+
+model Referral {
+  id             Int      @id @default(autoincrement())
+  referrerId     Int
+  referrer       User     @relation(fields: [referrerId], references: [id])
+  referredPhone  String   @unique
+  referredUserId Int?
+  reward         Float    @default(0)
+  status         String   @default("PENDING") // PENDING, COMPLETED
+  createdAt      DateTime @default(now())
+
+  @@index([referrerId])
+  @@index([referredPhone])
+}
+
+model SiteSettings {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonial {
+  id         Int      @id @default(autoincrement())
+  name       String
+  rating     Int      @default(5)
+  text       String   @db.Text
+  productImg String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Country {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  states    State[]
+}
+
+model State {
+  id        Int      @id @default(autoincrement())
+  name      String
+  countryId Int
+  country   Country  @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  
+  @@unique([name, countryId])
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+model Coupon {
+  id            Int          @id @default(autoincrement())
+  code          String       @unique
+  discountType  DiscountType
+  discountValue Float
+  minOrderValue Float?
+  maxDiscount   Float?
+  validFrom     DateTime?
+  validUntil    DateTime?
+  usageLimit    Int?
+  usedCount     Int          @default(0)
+  isFirstPurchaseOnly Boolean @default(false)
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model AdminGeneralSetting {
+  id                Int       @id @default(autoincrement())
+  defaultCountryId  Int
+  twoFactorApiKey   String
+  loginOtpTemplate  String
+  msg91AuthKey      String?
+  msg91Template     String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+  deletedAt         DateTime?
+}
+
+model StaticPageSeo {
+  id              Int      @id @default(autoincrement())
+  pagePath        String   @unique
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?  @db.Text
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ScheduledMessage {
+  id            Int                     @id @default(autoincrement())
+  title         String
+  message       String                  @db.Text
+  imageUrl      String?
+  buttonLabel   String?
+  buttonUrl     String?
+  scheduledAt   DateTime
+  status        ScheduledMessageStatus  @default(PENDING)
+  targetType    TargetType              @default(ALL_LINKED)
+  targetUserIds Json?                   // Array of user IDs stored as JSON
+  targetChatId  String?
+  sentAt        DateTime?
+  sentCount     Int                     @default(0)
+  failedCount   Int                     @default(0)
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+}
+
+enum ScheduledMessageStatus {
+  PENDING
+  SENDING
+  SENT
+  FAILED
+}
+
+enum TargetType {
+  ALL_LINKED
+  SPECIFIC_USERS
+  SPECIFIC_CHAT
+}
+
+model CartAbandonment {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartSnapshot   Json
+  reminder1hSent Boolean  @default(false)
+  reminder24hSent Boolean @default(false)
+  reminder3dSent Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model FestivalMessage {
+  id            Int                    @id @default(autoincrement())
+  name          String
+  message       String                 @db.Text
+  imageUrl      String?
+  buttonLabel   String?
+  buttonUrl     String?
+  scheduledDate DateTime
+  status        FestivalMessageStatus  @default(DRAFT)
+  sentAt        DateTime?
+  sentCount     Int                    @default(0)
+  failedCount   Int                    @default(0)
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+}
+
+enum FestivalMessageStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  FAILED
+}

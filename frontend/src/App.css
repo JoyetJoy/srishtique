@@ -1,0 +1,104 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-top: 70px;
+}
+
+/* Trending Collection Section (formerly Jewellery) */
+.jewellery-section {
+  background: var(--primary);
+  padding: 64px 0;
+}
+
+.jewellery-container {
+  max-width: 1478px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.jewellery-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bg-main);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.jewellery-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 249, 239, 0.8);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.jewellery-section .product-section {
+  background: transparent;
+  padding: 0;
+}
+
+.jewellery-section .product-section:nth-child(even) {
+  background: transparent;
+}
+
+.jewellery-section .section-header {
+  display: none;
+}
+
+.jewellery-section .product-grid {
+  gap: 50px;
+}
+
+.jewellery-section .section-cta {
+  margin-top: 36px;
+}
+
+.jewellery-section .btn-outline {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.jewellery-section .btn-outline:hover {
+  background: var(--accent-gold);
+  color: var(--primary);
+}
+
+/* ─── Mobile View Optimization for Jewellery Collection ─── */
+@media (max-width: 768px) {
+  .jewellery-section {
+    padding: 32px 0;
+  }
+  .jewellery-container {
+    padding: 0 16px;
+  }
+  .jewellery-title {
+    font-size: 32px !important;
+    margin-bottom: 8px;
+  }
+  .jewellery-subtitle {
+    font-size: 14px !important;
+    margin-bottom: 24px;
+    padding: 0 8px;
+  }
+  .jewellery-section .product-grid {
+    gap: 12px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .jewellery-title {
+    font-size: 26px !important;
+  }
+  .jewellery-section .product-grid {
+    gap: 10px !important;
+  }
+}

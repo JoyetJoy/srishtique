@@ -1,0 +1,45 @@
+.app-loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  width: 100%;
+}
+
+.app-loader-wrapper.full-screen {
+  min-height: 100vh;
+  position: fixed;
+  inset: 0;
+  background-color: var(--cream);
+  z-index: 9999;
+}
+
+.app-loader-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--maroon);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-transform: lowercase;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.app-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(235, 176, 85, 0.15);
+  border-radius: 50%;
+  border-top-color: var(--maroon);
+  animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.95); }
+}
