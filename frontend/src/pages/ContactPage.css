@@ -1,5 +1,5 @@
 .contact-page {
-  background: var(--var(--text-main));
+  background: white;
   padding: 60px 0 100px;
 }
 
@@ -24,7 +24,7 @@
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 60px;
-  background: var(--var(--text-main));
+  background: white;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 12px 40px rgba(128, 1, 31, 0.06);
@@ -116,7 +116,7 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--maroon);
-  background: var(--var(--text-main));
+  background: white;
   box-shadow: 0 0 0 4px rgba(128, 1, 31, 0.1);
 }
 

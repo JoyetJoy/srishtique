@@ -522,7 +522,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: var(--var(--text-main));
+    background: white;
     padding: 12px 16px;
     box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
     z-index: 100;

@@ -237,7 +237,7 @@
   font-weight: 700;
   color: var(--maroon);
   line-height: 1.15;
-  var(--text-main)-space: pre-line;
+  white-space: pre-line;
   margin-bottom: 16px;
 }
 
@@ -245,7 +245,7 @@
   font-size: 14px;
   color: var(--text-mid);
   line-height: 1.7;
-  var(--text-main)-space: pre-line;
+  white-space: pre-line;
   max-width: 380px;
   margin-bottom: 32px;
 }
@@ -283,7 +283,7 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   text-align: center;
-  var(--text-main)-space: pre-line;
+  white-space: pre-line;
   line-height: 1.3;
   box-shadow: 0 4px 20px rgba(235, 176, 85, 0.3);
   animation: heroPulse 2.5s ease-in-out infinite;

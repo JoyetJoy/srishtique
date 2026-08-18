@@ -13,7 +13,7 @@
 }
 
 .modal-content {
-  background: var(--var(--text-main));
+  background: white;
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
@@ -70,7 +70,7 @@
 
 .btn-cancel {
   padding: 8px 16px;
-  background: var(--var(--text-main));
+  background: white;
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text-dark);
@@ -89,7 +89,7 @@
   background: var(--maroon);
   border: 1px solid var(--maroon);
   border-radius: 6px;
-  color: var(--var(--text-main));
+  color: white;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;

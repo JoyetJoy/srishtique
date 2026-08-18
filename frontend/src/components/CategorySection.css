@@ -98,7 +98,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--var(--text-main));
+  background: white;
   border: 1px solid var(--border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   display: flex;
