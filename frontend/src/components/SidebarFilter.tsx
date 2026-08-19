@@ -297,36 +297,7 @@ const SidebarFilter = ({
           </div>
         )}
 
-        {/* Colors */}
-        {availableFilters.colors.length > 0 && (
-          <div className="filter-section">
-            <button 
-              className="filter-section-header" 
-              onClick={() => toggleSection('colors')}
-            >
-              <span>Colors</span>
-              <svg className={`chevron ${openSection === 'colors' ? 'open' : ''}`} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="m6 9 6 6 6-6"/>
-              </svg>
-            </button>
-            
-            {openSection === 'colors' && (
-              <div className="filter-section-content">
-                {availableFilters.colors.map((color) => (
-                  <label key={color} className="checkbox-label">
-                    <input 
-                      type="checkbox" 
-                      className="custom-checkbox" 
-                      checked={filters.colors.includes(color)}
-                      onChange={() => handleCheckboxChange('colors', color)}
-                    />
-                    <span className="checkbox-text">{color}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+
       </div>
     </aside>
   );
