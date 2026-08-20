@@ -89,8 +89,9 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <div className="container footer-bottom-inner">
+        <div className="container footer-bottom-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
           <p>@{new Date().getFullYear()} {brandName}. All Rights Reserved.</p>
+          <p>Powered by Eayila consulting</p>
         </div>
       </div>
     </footer>
