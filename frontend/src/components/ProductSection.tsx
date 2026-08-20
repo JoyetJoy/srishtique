@@ -122,9 +122,9 @@ export const ProductCard = ({ product }: { product: Product }) => {
           <h3 className="product-name">{product.name}</h3>
         </Link>
         <div className="product-price-row">
-          <span className="product-price">₹{(product.price || 0).toLocaleString('en-IN')}</span>
+          <span className="product-price" style={{ fontSize: '15px' }}>₹{(product.price || 0).toLocaleString('en-IN')}</span>
           {product.originalPrice && (
-            <span className="product-original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+            <span className="product-original-price" style={{ fontSize: '11px' }}>₹{product.originalPrice.toLocaleString('en-IN')}</span>
           )}
         </div>
         <div className="product-card-buttons">

@@ -17,66 +17,46 @@ const TestimonialsSection = () => {
       .catch(err => console.error('Failed to fetch testimonials', err));
   }, []);
 
-  // Auto-scroll animation
-  useEffect(() => {
-    if (reviews.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      if (scrollRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-        if (scrollLeft + clientWidth >= scrollWidth - 10) {
-           scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-           scrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
-        }
-      }
-    }, 4000);
-    
-    return () => clearInterval(interval);
-  }, [reviews]);
-
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = 320;
       scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        left: direction === 'left' ? -340 : 340,
         behavior: 'smooth'
       });
     }
   };
 
+  if (reviews.length === 0) return null;
+
   return (
     <section className="testimonials-section">
-      <div className="container testimonials-split-container">
-        <div className="testimonials-left">
-          <div className="quote-mark quote-left">“</div>
-          <h2 className="testimonials-heading">Happy Customers<br/>Review</h2>
-          <p className="testimonials-subheading">Real experiences, real smiles</p>
-        </div>
-        
-        <div className="testimonials-right">
-          <div className="testimonials-carousel-wrap">
-            <div className="testimonials-carousel" ref={scrollRef}>
-              {reviews.map(r => (
-                <div key={r.id} className="testimonial-card">
-                  <div className="testimonial-author">
-                    <p className="testimonial-name">{r.name}</p>
-                  </div>
-                  <div className="testimonial-stars">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <span key={i} className={`star ${i < r.rating ? 'filled' : ''}`}>★</span>
-                    ))}
-                  </div>
-                  <p className="testimonial-text">{r.text}</p>
-                </div>
-              ))}
-            </div>
+      <div className="testimonials-container">
+        <h2 className="testimonials-heading">HEAR FROM OUR CUSTOMERS</h2>
 
-            <button className="carousel-arrow carousel-arrow-right" onClick={() => scroll('right')} aria-label="Next">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
+        <div className="testimonials-carousel-wrap">
+          <button className="carousel-arrow carousel-arrow-left" onClick={() => scroll('left')} aria-label="Previous">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+
+          <div className="testimonials-carousel" ref={scrollRef}>
+            {reviews.map(r => (
+              <div key={r.id} className="testimonial-card">
+                <div className="testimonial-quote">❝</div>
+                <div className="testimonial-stars">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <span key={i} className={`star ${i < r.rating ? 'filled' : ''}`}>★</span>
+                  ))}
+                </div>
+                <p className="testimonial-text">{r.text}</p>
+                <div className="testimonial-divider" />
+                <p className="testimonial-name">{r.name}</p>
+              </div>
+            ))}
           </div>
-          <div className="quote-mark quote-right">“</div>
+
+          <button className="carousel-arrow carousel-arrow-right" onClick={() => scroll('right')} aria-label="Next">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
     </section>
