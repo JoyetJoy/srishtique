@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import CheckoutDrawer from './CheckoutDrawer';
 import { getImageUrl } from '../utils/imageUrl';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const colorHexMap: { [key: string]: string } = {
   green: '#2e7d32',
@@ -27,7 +26,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
   const [quantity, setQuantity] = useState(1);
   const [openAccordions, setOpenAccordions] = useState<number[]>([]);
   const [isCheckoutDrawerOpen, setIsCheckoutDrawerOpen] = useState(false);
-  const [notifySubscribed, setNotifySubscribed] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -179,35 +178,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
     }
   }, [product, matchingVariant, location.search, navigate, quantity, selectedColorName, activeSize, isOutOfStock]);
 
-  useEffect(() => {
-    if (matchingVariant?.id) {
-      const token = localStorage.getItem('dk_exporting_token');
-      if (token) {
-        fetch(`${API_URL}/api/public/stock-notifications/check?productVariantId=${matchingVariant.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.json())
-          .then((data) => setNotifySubscribed(data.subscribed))
-          .catch(() => {});
-      }
-    }
-  }, [matchingVariant?.id]);
 
-  const handleNotifyMe = async () => {
-    const token = localStorage.getItem('dk_exporting_token');
-    if (!token) { toast.error('Please login to get notified'); return; }
-    try {
-      await fetch(`${API_URL}/api/public/stock-notifications`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ productVariantId: matchingVariant.id }),
-      });
-      setNotifySubscribed(true);
-      toast.success('We\'ll notify you when this is back in stock!');
-    } catch {
-      toast.error('Failed to subscribe');
-    }
-  };
 
   const handleAddToCart = () => {
     if (!matchingVariant) {

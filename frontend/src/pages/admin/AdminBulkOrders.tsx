@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import './AdminLayout.css'; // Re-use common admin styles if appropriate
 
 interface BulkOrder {
@@ -40,26 +39,7 @@ const AdminBulkOrders = () => {
     fetchOrders();
   }, []);
 
-  const handleStatusChange = async (id: number, newStatus: string) => {
-    try {
-      const token = localStorage.getItem('dk_exporting_token');
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/bulk-orders/${id}/status`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ status: newStatus })
-      });
-      
-      if (!res.ok) throw new Error('Failed to update status');
-      
-      toast.success('Status updated successfully');
-      setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o));
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
+
 
   if (loading) return <div className="admin-loading">Loading bulk orders...</div>;
   if (error) return <div className="admin-error">{error}</div>;

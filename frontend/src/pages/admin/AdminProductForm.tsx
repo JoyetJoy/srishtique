@@ -10,7 +10,6 @@ const AdminProductForm = () => {
   const isEditing = !!id;
 
   const [categories, setCategories] = useState<any[]>([]);
-  const [occasions, setOccasions] = useState<any[]>([]);
 
   // Basic Info
   const [name, setName] = useState('');
@@ -31,9 +30,7 @@ const AdminProductForm = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [sizeChart, setSizeChart] = useState('');
-  const [sizeChartFile, setSizeChartFile] = useState<File | null>(null);
   const [sizeChartMasterId, setSizeChartMasterId] = useState('');
-  const [sizeChartOptions, setSizeChartOptions] = useState<any[]>([]);
   
   // Rich Details
   const [productDetails, setProductDetails] = useState(''); // Comma separated
@@ -61,20 +58,8 @@ const AdminProductForm = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchOccasions();
-    fetchSizeCharts();
     if (isEditing) fetchProduct();
   }, [id]);
-
-  const fetchSizeCharts = async () => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/size-charts`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('dk_exporting_token')}` } });
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) setSizeChartOptions(data);
-      }
-    } catch (e) { console.error(e); }
-  };
 
   const fetchProduct = async () => {
     setLoading(true);
@@ -141,15 +126,7 @@ const AdminProductForm = () => {
     } catch (e) { console.error(e); }
   };
 
-  const fetchOccasions = async () => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/occasions?limit=1000`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('dk_exporting_token')}` } });
-      if (res.ok) {
-        const data = await res.json();
-        setOccasions(data.occasions || data);
-      }
-    } catch (e) { console.error(e); }
-  };
+
 
   // Specs Handlers
   const handleSpecChange = (index: number, field: 'key' | 'value', value: string) => {
@@ -229,18 +206,7 @@ const AdminProductForm = () => {
       let imageUrls = [...existingImages];
       let finalSizeChartUrl = sizeChart;
 
-      if (sizeChartFile) {
-        const formData = new FormData();
-        formData.append('image', sizeChartFile);
-        formData.append('folder', 'size-charts');
-        const uploadRes = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/upload`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('dk_exporting_token')}` },
-          body: formData
-        });
-        const uploadData = await uploadRes.json();
-        finalSizeChartUrl = uploadData.url;
-      }
+
 
       // 1. Upload Images
       if (imageFiles.length > 0) {
