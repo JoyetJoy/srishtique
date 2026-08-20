@@ -3,7 +3,8 @@ import HeroBanner from '../components/HeroBanner';
 import StaticSEO from '../components/StaticSEO';
 import { useState, useEffect } from 'react';
 import ProductSection from '../components/ProductSection';
-import OccasionSection from '../components/OccasionSection';
+import BulkOrderSection from '../components/BulkOrderSection';
+
 import InstagramSection from '../components/InstagramSection';
 import FadeIn from '../components/FadeIn';
 import AboutUsSection from '../components/AboutUsSection';
@@ -13,6 +14,7 @@ import Loader from '../components/Loader';
 const HomePage = () => {
   const [newArrivals, setNewArrivals] = useState<any[]>([]);
   const [trending, setTrending] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -43,6 +45,7 @@ const HomePage = () => {
 
         setNewArrivals(newArrivalsData.map(formatProduct).slice(0, 5));
         setTrending(trendingData.map(formatProduct));
+        setAllProducts(data.map(formatProduct));
       })
       .catch(err => console.error('Failed to fetch products', err))
       .finally(() => setIsLoading(false));
@@ -60,28 +63,28 @@ const HomePage = () => {
         defaultDescription="Discover premium cashew nuts, black pepper, and cardamom at DK Exporting."
       />
       <HeroBanner />
-      <FadeIn delay={0.1} direction="left">
-        <OccasionSection />
+      <FadeIn delay={0.1} direction="right">
+        <AboutUsSection />
       </FadeIn>
-      {newArrivals.length > 0 && (
+
+      {allProducts.length > 0 && (
         <FadeIn delay={0.1} direction="up">
           <section className="jewellery-section">
             <div className="jewellery-container">
-              <h2 className="jewellery-title">New Arrivals</h2>
-              <p className="jewellery-subtitle">Explore our newly launched collections</p>
+              <h2 className="jewellery-title">Our Products</h2>
+              <p className="jewellery-subtitle">Discover our full range of premium spices and nuts</p>
               <ProductSection
                 title=""
-                products={newArrivals}
-                viewAllLink="/new-arrivals"
+                products={allProducts}
+                viewAllLink="/products"
                 columns={4}
               />
             </div>
           </section>
         </FadeIn>
       )}
-      <FadeIn delay={0.2} direction="right">
-        <AboutUsSection />
-      </FadeIn>
+      <BulkOrderSection products={allProducts} />
+
       {trending.length > 0 && (
         <FadeIn delay={0.1}>
           <section className="jewellery-section">

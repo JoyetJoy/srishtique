@@ -1,6 +1,6 @@
 .testimonials-section {
   padding: 80px 0;
-  background: var(--bg-main);
+  background: #3e2723;
 }
 
 .testimonials-split-container {
@@ -22,8 +22,8 @@
   font-size: 350px;
   font-weight: 700;
   line-height: 1;
-  color: #EEEBDE;
-  opacity: 0.9;
+  color: #5d4037;
+  opacity: 0.5;
   z-index: -1;
   user-select: none;
 }
@@ -37,7 +37,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 40px;
   font-weight: 500;
-  color: var(--text-dark);
+  color: #fff;
   line-height: 1.2;
   margin-bottom: 12px;
 }
@@ -45,7 +45,7 @@
 .testimonials-subheading {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 16px;
-  color: var(--text-mid);
+  color: #e0e0e0;
 }
 
 .testimonials-right {

@@ -13,6 +13,7 @@ import publicRoutes from './routes/public.routes';
 import seoRoutes from './routes/seo';
 import scheduledMessageRoutes from './routes/scheduledMessages';
 import festivalMessageRoutes from './routes/festivalMessages';
+import bulkOrderRoutes from './routes/bulkOrderRoutes';
 import { authenticate, requireSuperAdmin } from './middleware/auth';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -27,7 +28,7 @@ app.use(helmet());
 // CORS - restrict to allowed origins
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
-  : ['http://localhost:5173', 'http://localhost:3000', 'https://srishtique-one.vercel.app', 'https://www.srishtique.com', 'https://srishtique.com'];
+  : ['http://localhost:5173', 'http://localhost:3000', 'https://dkexporting.com', 'https://www.dkexporting.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -62,6 +63,7 @@ app.use(express.json());
 // Public routes
 app.use('/api/settings', settingsRoutes);
 app.use('/api/public', publicRoutes);
+app.use('/api/public/bulk-orders', bulkOrderRoutes);
 app.use('/api/seo', seoRoutes);
 
 // Auth routes with rate limiting
@@ -83,7 +85,7 @@ app.use('/api/notifications', authenticate, requireSuperAdmin, notificationRoute
 app.use('/api/wishlist', authenticate, wishlistRoutes);
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Srishtique API is running' });
+  res.json({ status: 'OK', message: 'DK Exporting API is running' });
 });
 
 // Error handler (must be last)

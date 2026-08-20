@@ -980,6 +980,53 @@ export const getSizeCharts = async (req: Request, res: Response) => {
   }
 };
 
+export const getBulkOrders = async (req: Request, res: Response) => {
+  try {
+    const bulkOrders = await prisma.bulkOrderInquiry.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(bulkOrders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch bulk orders' });
+  }
+};
+
+export const getBulkOrderById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const order = await prisma.bulkOrderInquiry.findUnique({
+      where: { id: parseInt(id) }
+    });
+    
+    if (!order) return res.status(404).json({ error: 'Bulk order not found' });
+    
+    res.json(order);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch bulk order details' });
+  }
+};
+
+export const updateBulkOrderStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    
+    if (!status) return res.status(400).json({ error: 'Status is required' });
+
+    const updated = await prisma.bulkOrderInquiry.update({
+      where: { id: parseInt(id) },
+      data: { status }
+    });
+    
+    res.json(updated);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update bulk order status' });
+  }
+};
+
 export const getSizeChart = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {

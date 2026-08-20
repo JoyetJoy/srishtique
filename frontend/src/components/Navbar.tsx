@@ -76,7 +76,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('dk_exporting_token');
-    localStorage.removeItem('srishtique_cart');
+    localStorage.removeItem('dk_cart');
     clearCart();
     setIsProfileOpen(false);
     navigate('/login');

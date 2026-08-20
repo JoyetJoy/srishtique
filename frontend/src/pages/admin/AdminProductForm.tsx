@@ -356,12 +356,24 @@ const AdminProductForm = () => {
           {/* BASIC INFO */}
           <div style={{ padding: '24px', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <h5 style={{ margin: '0 0 16px 0', fontSize: '16px', color: '#0f172a' }}>Basic Info</h5>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
               <div className="admin-form-group">
                 <label>Name</label>
                 <input type="text" className="admin-input" value={name} onChange={e => setName(e.target.value)} required />
               </div>
+
               <div className="admin-form-group">
+                <label>Category</label>
+                <SearchableSelect
+                  options={categories.map((c: any) => ({ value: c.id, label: `${c.name} (${c.type})` }))}
+                  value={categoryId}
+                  onChange={setCategoryId}
+                  placeholder="Select Category"
+                  required
+                />
+              </div>
+
+              <div className="admin-form-group" style={{ gridColumn: '1 / -1' }}>
                 <label>Product Images - Recommended size: 800x1200 (Portrait)</label>
                 <input 
                   type="file" 
@@ -410,82 +422,12 @@ const AdminProductForm = () => {
                   <p style={{fontSize: '12px', color: '#64748b', marginTop: '8px'}}>Total {existingImages.length + imageFiles.length} images selected.</p>
                 )}
               </div>
-              <div className="admin-form-group">
-                <label>Tabular Size Chart Master (optional) - Overrides category master</label>
-                <select
-                  className="admin-input"
-                  value={sizeChartMasterId}
-                  onChange={e => setSizeChartMasterId(e.target.value)}
-                >
-                  <option value="">-- None (Use Category Size Chart Master if available) --</option>
-                  {sizeChartOptions.map(sc => (
-                    <option key={sc.id} value={sc.id}>{sc.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="admin-form-group">
-                <label>Size Chart Image Upload (optional) - Overrides category image</label>
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                  <div style={{ flex: 1 }}>
-                    <input 
-                      type="file" 
-                      className="admin-input" 
-                      accept="image/*"
-                      onChange={e => setSizeChartFile(e.target.files?.[0] || null)} 
-                    />
-                  </div>
-                  {sizeChart && !sizeChartFile && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src={getImageUrl(sizeChart)} alt="Size Chart Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e2e8f0' }} />
-                      <span style={{fontSize: '10px', color: '#64748b', marginTop: '4px'}}>Current</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="admin-form-group">
-                <label>Category</label>
-                <SearchableSelect
-                  options={categories.map((c: any) => ({ value: c.id, label: `${c.name} (${c.type})` }))}
-                  value={categoryId}
-                  onChange={setCategoryId}
-                  placeholder="Select Category"
-                  required
-                />
-              </div>
-              <div className="admin-form-group">
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, fontSize: '14px', color: '#0f172a' }}>Occasions (Optional)</label>
-                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                  {occasions.map((o: any) => (
-                    <label key={o.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '14px' }}>
-                      <input 
-                        type="checkbox" 
-                        checked={occasionIds.includes(o.id)}
-                        onChange={(e) => {
-                          if (e.target.checked) setOccasionIds([...occasionIds, o.id]);
-                          else setOccasionIds(occasionIds.filter(id => id !== o.id));
-                        }}
-                        style={{ width: '16px', height: '16px', cursor: 'pointer' }}
-                      />
-                      {o.name}
-                    </label>
-                  ))}
-                </div>
-              </div>
             </div>
             <div className="admin-form-group" style={{ marginTop: '24px' }}>
               <label>Description</label>
               <textarea className="admin-input" value={description} onChange={e => setDescription(e.target.value)} rows={3}></textarea>
             </div>
-            <div style={{ display: 'flex', gap: '24px', marginTop: '16px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input type="checkbox" checked={isNewArrival} onChange={e => setIsNewArrival(e.target.checked)} />
-                Show in "New Arrivals"
-              </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input type="checkbox" checked={isTrending} onChange={e => setIsTrending(e.target.checked)} />
-                Show in "Trending"
-              </label>
-            </div>
+
           </div>
 
           {/* RICH DETAILS */}
@@ -569,15 +511,15 @@ const AdminProductForm = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '16px' }}>
                   <div>
                     <label style={{ display: 'block', marginBottom: '4px', fontWeight: 600, fontSize: '12px', color: '#334155' }}>Price *</label>
-                    <input type="number" className="admin-input" placeholder="₹" value={bulkPrice} onChange={e => setBulkPrice(e.target.value)} />
+                    <input type="number" className="admin-input" placeholder="₹" min="0" value={bulkPrice} onChange={e => setBulkPrice(e.target.value)} />
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '4px', fontWeight: 600, fontSize: '12px', color: '#334155' }}>Original Price</label>
-                    <input type="number" className="admin-input" placeholder="₹ (MRP)" value={bulkOriginalPrice} onChange={e => setBulkOriginalPrice(e.target.value)} />
+                    <input type="number" className="admin-input" placeholder="₹ (MRP)" min="0" value={bulkOriginalPrice} onChange={e => setBulkOriginalPrice(e.target.value)} />
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '4px', fontWeight: 600, fontSize: '12px', color: '#334155' }}>Stock *</label>
-                    <input type="number" className="admin-input" placeholder="Qty per variant" value={bulkStock} onChange={e => setBulkStock(e.target.value)} />
+                    <input type="number" className="admin-input" placeholder="Qty per variant" min="0" value={bulkStock} onChange={e => setBulkStock(e.target.value)} />
                   </div>
                 </div>
 
@@ -609,15 +551,15 @@ const AdminProductForm = () => {
 
                 <div>
                   <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Price *</label>
-                  <input type="number" className="admin-input" placeholder="₹" value={variant.price} onChange={e => handleVariantChange(index, 'price', e.target.value)} required />
+                  <input type="number" className="admin-input" placeholder="₹" min="0" value={variant.price} onChange={e => handleVariantChange(index, 'price', e.target.value)} required />
                 </div>
                 <div>
                   <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Orig. Price</label>
-                  <input type="number" className="admin-input" placeholder="₹" value={variant.originalPrice} onChange={e => handleVariantChange(index, 'originalPrice', e.target.value)} />
+                  <input type="number" className="admin-input" placeholder="₹" min="0" value={variant.originalPrice} onChange={e => handleVariantChange(index, 'originalPrice', e.target.value)} />
                 </div>
                 <div>
                   <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>Stock *</label>
-                  <input type="number" className="admin-input" placeholder="Qty" value={variant.stock} onChange={e => handleVariantChange(index, 'stock', e.target.value)} required />
+                  <input type="number" className="admin-input" placeholder="Qty" min="0" value={variant.stock} onChange={e => handleVariantChange(index, 'stock', e.target.value)} required />
                 </div>
                 <div>
                   <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#64748b' }}>SKU</label>

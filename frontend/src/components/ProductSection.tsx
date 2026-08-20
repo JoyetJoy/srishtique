@@ -21,6 +21,7 @@ export interface Product {
   variantId?: number;
   size?: string;
   color?: string;
+  isOutOfStock?: boolean;
 }
 
 interface ProductSectionProps {
@@ -127,12 +128,33 @@ export const ProductCard = ({ product }: { product: Product }) => {
           )}
         </div>
         <div className="product-card-buttons">
-          <button className="card-add-to-cart" onClick={handleAddToCart}>
-            ADD TO CART
-          </button>
-          <button className="card-buy-now" onClick={handleBuyNow}>
-            BUY NOW
-          </button>
+          {product.isOutOfStock ? (
+            <button 
+              disabled 
+              style={{ 
+                width: '100%', 
+                padding: '10px 0', 
+                background: '#e0e0e0', 
+                color: '#888', 
+                border: 'none', 
+                fontWeight: 600, 
+                fontSize: '12px',
+                cursor: 'not-allowed',
+                letterSpacing: '1px'
+              }}
+            >
+              OUT OF STOCK
+            </button>
+          ) : (
+            <>
+              <button className="card-add-to-cart" onClick={handleAddToCart}>
+                ADD TO CART
+              </button>
+              <button className="card-buy-now" onClick={handleBuyNow}>
+                BUY NOW
+              </button>
+            </>
+          )}
         </div>
       </div>
       

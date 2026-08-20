@@ -29,7 +29,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const stored = localStorage.getItem('srishtique_cart');
+    const stored = localStorage.getItem('dk_cart');
     return stored ? JSON.parse(stored) : [];
   });
 
@@ -73,7 +73,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('srishtique_cart', JSON.stringify(cartItems));
+    localStorage.setItem('dk_cart', JSON.stringify(cartItems));
     const token = localStorage.getItem('dk_exporting_token');
     if (token) {
       const timer = setTimeout(() => {

@@ -351,51 +351,70 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
       </div>
 
       {/* Quantity & Actions */}
-      <span className="selector-label">Quantity</span>
-      <div className="qty-action-row">
-        <div className="qty-selector">
-          <button className="qty-btn" onClick={() => handleQtyChange(-1)}>−</button>
-          <input 
-            type="number" 
-            className="qty-input" 
-            value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-          />
-          <button className="qty-btn" onClick={() => handleQtyChange(1)}>+</button>
-        </div>
-        
-        <button className="btn-add-cart" onClick={handleAddToCart}>
-          ADD TO CART
-        </button>
-        
-        <button className="btn-buy-now" onClick={handleBuyNow}>
-          BUY NOW
-        </button>
-
-        {isOutOfStock && (
-          <button
-            onClick={handleNotifyMe}
-            disabled={notifySubscribed}
-            style={{
-              padding: '10px 16px', borderRadius: 6, fontSize: 13, fontWeight: 600, cursor: notifySubscribed ? 'default' : 'pointer',
-              background: notifySubscribed ? '#d1fae5' : '#fef3c7', color: notifySubscribed ? '#065f46' : '#92400e',
-              border: `1px solid ${notifySubscribed ? '#a7f3d0' : '#fcd34d'}`,
+      {isOutOfStock ? (
+        <div className="qty-action-row" style={{ marginTop: '20px', justifyContent: 'flex-start' }}>
+          <button 
+            disabled 
+            style={{ 
+              padding: '14px 40px', 
+              background: '#e0e0e0', 
+              color: '#888', 
+              border: 'none', 
+              borderRadius: '6px', 
+              fontWeight: 600, 
+              fontSize: '15px',
+              cursor: 'not-allowed',
+              letterSpacing: '1px',
+              minWidth: '200px'
             }}
           >
-            {notifySubscribed ? '✓ We\'ll Notify You' : '🔔 Notify Me'}
+            OUT OF STOCK
           </button>
-        )}
+          <button 
+            className={`btn-wishlist-large ${isInWishlist(product.id) ? 'active' : ''}`}
+            onClick={async () => await toggleWishlist(product.id)}
+            aria-label="Wishlist"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        <>
+          <span className="selector-label">Quantity</span>
+          <div className="qty-action-row">
+            <div className="qty-selector">
+              <button className="qty-btn" onClick={() => handleQtyChange(-1)}>−</button>
+              <input 
+                type="number" 
+                className="qty-input" 
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+              />
+              <button className="qty-btn" onClick={() => handleQtyChange(1)}>+</button>
+            </div>
+            
+            <button className="btn-add-cart" onClick={handleAddToCart}>
+              ADD TO CART
+            </button>
+            
+            <button className="btn-buy-now" onClick={handleBuyNow}>
+              BUY NOW
+            </button>
 
-        <button 
-          className={`btn-wishlist-large ${isInWishlist(product.id) ? 'active' : ''}`}
-          onClick={async () => await toggleWishlist(product.id)}
-          aria-label="Wishlist"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
-        </button>
-      </div>
+            <button 
+              className={`btn-wishlist-large ${isInWishlist(product.id) ? 'active' : ''}`}
+              onClick={async () => await toggleWishlist(product.id)}
+              aria-label="Wishlist"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            </button>
+          </div>
+        </>
+      )}
 
 
       {/* Accordions */}

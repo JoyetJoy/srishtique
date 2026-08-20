@@ -26,7 +26,7 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN: z.string().optional(),
   TELEGRAM_BOT_USERNAME: z.string().optional(),
   TELEGRAM_WEBHOOK_URL: z.string().optional(),
-  FRONTEND_URL: z.string().default('https://srishtique.com'),
+  FRONTEND_URL: z.string().default('https://dkexporting.com'),
 });
 
 type Env = z.infer<typeof envSchema>;

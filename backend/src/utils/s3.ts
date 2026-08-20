@@ -24,7 +24,7 @@ export const upload = multer({
 
 export const uploadToSpaces = async (file: Express.Multer.File, folder: string = 'uploads'): Promise<string> => {
   const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
-  const key = `srishtique/${folder}/${fileName}`;
+  const key = `dk_exporting/${folder}/${fileName}`;
   
   // Compress and optimize the image using sharp
   const optimizedBuffer = await sharp(file.buffer)
@@ -45,6 +45,6 @@ export const uploadToSpaces = async (file: Express.Multer.File, folder: string =
 
   await s3.putObject(params).promise();
   
-  // Return the relative key (e.g. srishtique/products/123.jpg)
+  // Return the relative key (e.g. dk_exporting/products/123.jpg)
   return key;
 };

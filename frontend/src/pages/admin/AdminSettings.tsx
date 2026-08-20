@@ -464,12 +464,7 @@ const AdminSettings = () => {
         >
           Hero Carousel
         </button>
-        <button 
-          onClick={() => setActiveTab('occasion')} 
-          style={{ padding: '12px 24px', background: activeTab === 'occasion' ? '#fff' : 'transparent', border: activeTab === 'occasion' ? '1px solid #e2e8f0' : '1px solid transparent', borderBottom: activeTab === 'occasion' ? '1px solid #fff' : 'none', marginBottom: '-1px', color: activeTab === 'occasion' ? '#011C18' : '#64748b', fontWeight: activeTab === 'occasion' ? 600 : 500, borderRadius: '8px 8px 0 0', cursor: 'pointer', transition: 'all 0.2s' }}
-        >
-          Occasion Banner
-        </button>
+
         <button 
           onClick={() => setActiveTab('seo')} 
           style={{ padding: '12px 24px', background: activeTab === 'seo' ? '#fff' : 'transparent', border: activeTab === 'seo' ? '1px solid #e2e8f0' : '1px solid transparent', borderBottom: activeTab === 'seo' ? '1px solid #fff' : 'none', marginBottom: '-1px', color: activeTab === 'seo' ? '#011C18' : '#64748b', fontWeight: activeTab === 'seo' ? 600 : 500, borderRadius: '8px 8px 0 0', cursor: 'pointer', transition: 'all 0.2s' }}

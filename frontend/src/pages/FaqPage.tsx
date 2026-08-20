@@ -33,7 +33,7 @@ const FaqPage = () => {
           <div className="faq-item">
             <h3 className="faq-question">How can I contact customer support?</h3>
             <div className="faq-answer">
-              You can reach our customer support team via email at support@dk_exporting.com or call us at 1800-SRISHTIQUE-CARE between 9 AM and 6 PM, Monday to Saturday.
+              You can reach our customer support team via email at support@dkexporting.com or call us at 1800-DK-CARE between 9 AM and 6 PM, Monday to Saturday.
             </div>
           </div>
 

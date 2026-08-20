@@ -7,7 +7,7 @@ function generateOrderNumber(dateStr: Date | string, orderId: number) {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
-  return `SRISHTIQUE-${year}${month}${day}-${orderId.toString().padStart(5, '0')}`;
+  return `DK-${year}${month}${day}-${orderId.toString().padStart(5, '0')}`;
 }
 
 async function migrate() {

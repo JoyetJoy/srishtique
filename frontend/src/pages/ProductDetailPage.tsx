@@ -27,7 +27,8 @@ const ProductDetailPage = () => {
             ...p,
             price: minPrice,
             originalPrice: minVariant?.originalPrice,
-            image: p.images?.[0] || ''
+            image: p.images?.[0] || '',
+            isOutOfStock: !p.variants || p.variants.length === 0 || p.variants.every((v: any) => v.stock <= 0)
           };
         };
 

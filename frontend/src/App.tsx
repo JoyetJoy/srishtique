@@ -23,6 +23,8 @@ import AdminSeoManager from './pages/admin/AdminSeoManager';
 import AdminScheduledMessages from './pages/admin/AdminScheduledMessages';
 import AdminFestivalMessages from './pages/admin/AdminFestivalMessages';
 import AdminRestockRequests from './pages/admin/AdminRestockRequests';
+import AdminBulkOrders from './pages/admin/AdminBulkOrders';
+import AdminBulkOrderDetail from './pages/admin/AdminBulkOrderDetail';
 import LoginPage from './pages/auth/LoginPage';
 import SignupPage from './pages/auth/SignupPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
@@ -72,6 +74,8 @@ function App() {
           <Route path="testimonials" element={<AdminTestimonials />} />
           <Route path="coupons" element={<AdminCoupons />} />
           <Route path="orders" element={<AdminOrders />} />
+          <Route path="bulk-orders" element={<AdminBulkOrders />} />
+          <Route path="bulk-orders/:id" element={<AdminBulkOrderDetail />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="seo" element={<AdminSeoManager />} />
           <Route path="scheduled-messages" element={<AdminScheduledMessages />} />

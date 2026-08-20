@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getCategories, createCategory, updateCategory, deleteCategory, getOccasions, createOccasion, updateOccasion, deleteOccasion, addProductsToOccasion, getProducts, createProduct, getProduct, updateProduct, deleteProduct, toggleProductStatus, uploadFile, getCustomers, getCustomer, getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial, getAllOrders, updateOrderStatus, processRefund, getDashboardStats, updateTrendingProducts, updateNewArrivalsProducts, getSizeCharts, getSizeChart, createSizeChart, updateSizeChart, deleteSizeChart, getRestockRequests } from '../controllers/admin.controller';
+import { getCategories, createCategory, updateCategory, deleteCategory, getOccasions, createOccasion, updateOccasion, deleteOccasion, addProductsToOccasion, getProducts, createProduct, getProduct, updateProduct, deleteProduct, toggleProductStatus, uploadFile, getCustomers, getCustomer, getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial, getAllOrders, updateOrderStatus, processRefund, getDashboardStats, updateTrendingProducts, updateNewArrivalsProducts, getSizeCharts, getSizeChart, createSizeChart, updateSizeChart, deleteSizeChart, getRestockRequests, getBulkOrders, updateBulkOrderStatus, getBulkOrderById } from '../controllers/admin.controller';
 import { getCoupons, createCoupon, updateCoupon, deleteCoupon } from '../controllers/coupon.controller';
 import { authenticate, requireSuperAdmin } from '../middleware/auth';
 import { upload } from '../utils/s3';
@@ -55,5 +55,9 @@ router.delete('/size-charts/:id', deleteSizeChart);
 router.get('/orders', getAllOrders);
 router.put('/orders/:id/status', updateOrderStatus);
 router.post('/orders/:id/refund', processRefund);
+
+router.get('/bulk-orders', getBulkOrders);
+router.get('/bulk-orders/:id', getBulkOrderById);
+router.put('/bulk-orders/:id/status', updateBulkOrderStatus);
 
 export default router;
