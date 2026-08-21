@@ -25,14 +25,15 @@ export interface Product {
 }
 
 interface ProductSectionProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   eyebrow?: string;
-  description?: string;
-  products: Product[];
+  description?: React.ReactNode;
+  products: any[];
   viewAllLink?: string;
   columns?: number;
   centered?: boolean;
+  mobileGrid?: boolean;
 }
 
 
@@ -46,51 +47,47 @@ export const ProductCard = ({ product }: { product: Product }) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (product.variantId) {
-      addToCart(
-        product,
-        product.size || '',
-        product.color || '',
-        1,
-        product.variantId,
-        product.price,
-        product.originalPrice
-      );
-      toast.success(`${product.name} added to cart!`);
-    } else {
-      navigate(`/product/${product.id}`);
-    }
+    e.stopPropagation();
+    
+    addToCart(
+      product,
+      product.size || '',
+      product.color || '',
+      1,
+      product.variantId || 0,
+      product.price || 0,
+      product.originalPrice
+    );
+    toast.success(`${product.name} added to cart!`);
   };
 
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (product.variantId) {
-      const token = localStorage.getItem('dk_exporting_token');
-      if (!token) {
-        navigate('/guest-login', {
-          state: {
-            directBuy: {
-              productVariantId: product.variantId,
-              quantity: 1,
-              price: product.price,
-              productName: product.name,
-              color: product.color || '',
-              size: product.size || '',
-              image: product.image || ''
-            }
+    e.stopPropagation();
+    
+    const token = localStorage.getItem('dk_exporting_token');
+    if (!token) {
+      navigate('/guest-login', {
+        state: {
+          directBuy: {
+            productVariantId: product.variantId || 0,
+            quantity: 1,
+            price: product.price || 0,
+            productName: product.name,
+            color: product.color || '',
+            size: product.size || '',
+            image: product.image || ''
           }
-        });
-        return;
-      }
-      
-      setIsCheckoutDrawerOpen(true);
-    } else {
-      navigate(`/product/${product.id}?buy=true`);
+        }
+      });
+      return;
     }
+    
+    setIsCheckoutDrawerOpen(true);
   };
 
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={() => navigate(`/product/${product.id}`)}>
       <div className="product-img-wrap">
         <Link to={`/product/${product.id}`} className="product-image-link">
           <div className="product-image-container">
@@ -104,6 +101,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
             className={`wishlist-action-btn ${isWishlisted ? 'active' : ''}`}
             onClick={async (e) => {
               e.preventDefault();
+              e.stopPropagation();
               await toggleWishlist(product.id);
             }}
             aria-label="Wishlist"
@@ -124,12 +122,25 @@ export const ProductCard = ({ product }: { product: Product }) => {
         <div className="product-price-row">
           <span className="product-price" style={{ fontSize: '15px' }}>₹{(product.price || 0).toLocaleString('en-IN')}</span>
           {product.originalPrice && (
-            <span className="product-original-price" style={{ fontSize: '11px' }}>₹{product.originalPrice.toLocaleString('en-IN')}</span>
+            <span className="product-orig-price" style={{ fontSize: '11px' }}>₹{product.originalPrice.toLocaleString('en-IN')}</span>
           )}
         </div>
         <div className="product-card-buttons">
           {product.isOutOfStock ? (
-            <button className="card-out-of-stock" disabled>
+            <button 
+              disabled 
+              style={{ 
+                width: '100%', 
+                padding: '10px 0', 
+                background: '#e0e0e0', 
+                color: '#888', 
+                border: 'none', 
+                fontWeight: 600, 
+                fontSize: '12px',
+                cursor: 'not-allowed',
+                letterSpacing: '1px'
+              }}
+            >
               OUT OF STOCK
             </button>
           ) : (
@@ -137,28 +148,30 @@ export const ProductCard = ({ product }: { product: Product }) => {
               <button className="card-buy-now" onClick={handleBuyNow}>
                 BUY NOW
               </button>
-              <button className="card-add-to-cart" onClick={handleAddToCart} title="Add to Cart">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              <button className="card-add-to-cart" onClick={handleAddToCart} aria-label="Add to Cart">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
               </button>
             </>
           )}
         </div>
       </div>
       
-      <CheckoutDrawer 
-        isOpen={isCheckoutDrawerOpen} 
-        onClose={() => setIsCheckoutDrawerOpen(false)} 
-        product={{...product, images: [product.image]}} 
-        variantId={product.variantId || 0} 
-        quantity={1} 
-        price={product.price || 0} 
-        size={product.size || ''} 
-      />
+      <div onClick={e => e.stopPropagation()}>
+        <CheckoutDrawer 
+          isOpen={isCheckoutDrawerOpen} 
+          onClose={() => setIsCheckoutDrawerOpen(false)} 
+          product={{...product, images: [product.image]}} 
+          variantId={product.variantId || 0} 
+          quantity={1} 
+          price={product.price || 0} 
+          size={product.size || ''} 
+        />
+      </div>
     </div>
   );
 };
 
-const ProductSection = ({ title, subtitle, eyebrow, description, products, viewAllLink = '#', columns, centered }: ProductSectionProps) => {
+const ProductSection = ({ title, subtitle, eyebrow, description, products, viewAllLink = '#', columns, centered, mobileGrid }: ProductSectionProps) => {
   return (
     <section className="product-section">
       <div className="container">
@@ -185,7 +198,7 @@ const ProductSection = ({ title, subtitle, eyebrow, description, products, viewA
             )}
           </div>
         )}
-        <div className={`product-grid ${products.length < (columns || 5) ? 'centered-grid' : ''}`} style={columns ? { '--desktop-cols': columns } as React.CSSProperties : undefined}>
+        <div className={`product-grid ${products.length < (columns || 5) ? 'centered-grid' : ''} ${mobileGrid ? 'grid-2-col-mobile' : ''}`} style={columns ? { '--desktop-cols': columns } as React.CSSProperties : undefined}>
           {products.map((p, index) => (
             <FadeIn key={p.id} delay={0.05 * index} direction="up" duration={0.6} className="h-full">
               <ProductCard product={p} />

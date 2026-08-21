@@ -1,0 +1,92 @@
+.bulk-section {
+  background-color: #f9f6f0;
+  margin: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.bulk-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 450px;
+}
+
+/* Image */
+.bulk-image {
+  flex: 1;
+  min-height: 450px;
+  background-image: url('/assets/images/bulk_spices_nuts.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Content */
+.bulk-content {
+  flex: 1;
+  padding: 60px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.bulk-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #4a3b32;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.bulk-desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 35px;
+  color: #6b5c53;
+}
+
+.bulk-btn {
+  padding: 14px 32px;
+  background-color: #4a3b32;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+  .bulk-inner {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .bulk-image {
+    min-height: 280px;
+    width: 100%;
+  }
+
+  .bulk-content {
+    padding: 36px 24px;
+  }
+
+  .bulk-title {
+    font-size: 1.8rem;
+  }
+
+  .bulk-desc {
+    font-size: 1rem;
+  }
+
+  .bulk-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

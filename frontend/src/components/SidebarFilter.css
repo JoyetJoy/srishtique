@@ -166,7 +166,14 @@
 .price-input-wrapper input::-webkit-outer-spin-button,
 .price-input-wrapper input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  background-color: #fff;
   margin: 0;
+}
+
+@media (min-width: 901px) {
+  .close-filter-btn {
+    display: none !important;
+  }
 }
 .price-input-wrapper input[type=number] {
   -moz-appearance: textfield;

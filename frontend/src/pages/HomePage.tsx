@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import HeroBanner from '../components/HeroBanner';
 
 import StaticSEO from '../components/StaticSEO';
@@ -75,10 +76,15 @@ const HomePage = () => {
               <p className="jewellery-subtitle">Discover our full range of premium spices and nuts</p>
               <ProductSection
                 title=""
-                products={allProducts}
-                viewAllLink="/products"
+                products={allProducts.slice(0, 4)}
                 columns={4}
+                mobileGrid={true}
               />
+              <div style={{ textAlign: 'center', marginTop: '32px' }}>
+                <Link to="/products" className="btn-outline explore-btn" style={{ background: '#4a3b32', color: '#fff', border: 'none', padding: '12px 32px' }}>
+                  SEE MORE
+                </Link>
+              </div>
             </div>
           </section>
         </FadeIn>

@@ -11,12 +11,12 @@ const ReturnPolicyPage = () => {
           <p>We want you to love what you ordered. If you are not completely satisfied with your purchase, we're here to help.</p>
           
           <h2>Returns</h2>
-          <p>You have 7 calendar days to return an item from the date you received it. To be eligible for a return, your item must be unused, unwashed, and in the same condition that you received it. Your item must be in the original packaging with all tags attached.</p>
+          <p>You have 7 calendar days to return an item from the date you received it. To be eligible for a return, your item must be unopened, unused, and in the same condition that you received it. Your item must be in the original packaging with all factory seals intact.</p>
 
           <h2>Non-Returnable Items</h2>
-          <p>Certain items cannot be returned due to hygiene and safety reasons:</p>
+          <p>Certain items cannot be returned due to hygiene and food safety reasons:</p>
           <ul>
-            <li>Intimate wear and swimwear</li>
+            <li>Opened or partially used food items</li>
             <li>Customized or personalized items</li>
             <li>Items marked as "Final Sale"</li>
           </ul>
@@ -26,7 +26,7 @@ const ReturnPolicyPage = () => {
           <p>If your return is approved, we will initiate a refund to your original method of payment (or store credit for COD orders). You will receive the credit within 5-7 business days, depending on your card issuer's policies.</p>
 
           <h2>Exchanges</h2>
-          <p>We only replace items if they are defective or damaged. If you need to exchange it for the same item in a different size or color, please send us an email at support@dk_exporting.com.</p>
+          <p>We only replace items if they are defective or damaged. If you need to exchange an item, please send us an email at support@dkexporting.com.</p>
         </div>
       </div>
     </div>

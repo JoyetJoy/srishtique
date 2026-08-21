@@ -109,6 +109,7 @@ const ProductDetailPage = () => {
         <ProductSection
           title="RELATED PRODUCTS"
           products={relatedProducts}
+          centered={true}
         />
       </div>
     </div>

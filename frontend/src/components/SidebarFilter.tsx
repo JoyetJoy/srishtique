@@ -22,6 +22,7 @@ interface SidebarFilterProps {
   };
   searchQuery: string;
   onSearchChange: (q: string) => void;
+  onClose?: () => void;
 }
 
 const SidebarFilter = ({
@@ -30,7 +31,8 @@ const SidebarFilter = ({
   showCategoryFilter,
   availableFilters,
   searchQuery,
-  onSearchChange
+  onSearchChange,
+  onClose
 }: SidebarFilterProps) => {
   const [openSection, setOpenSection] = useState<string | null>('Price Range');
 
@@ -112,23 +114,38 @@ const SidebarFilter = ({
           </svg>
           <span>FILTERS</span>
         </div>
-        {hasActiveFilters && (
-          <button 
-            onClick={handleClearAll} 
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'var(--maroon)', 
-              fontSize: '12px', 
-              fontWeight: 600, 
-              cursor: 'pointer',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}
-          >
-            Clear All
-          </button>
-        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {hasActiveFilters && (
+            <button 
+              onClick={handleClearAll} 
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                color: 'var(--maroon)', 
+                fontSize: '12px', 
+                fontWeight: 600, 
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}
+            >
+              Clear All
+            </button>
+          )}
+          {onClose && (
+            <button 
+              className="close-filter-btn"
+              onClick={onClose}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}
+              aria-label="Close filters"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="filter-sections">

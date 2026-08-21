@@ -26,7 +26,7 @@ const FaqPage = () => {
           <div className="faq-item">
             <h3 className="faq-question">What is your return policy?</h3>
             <div className="faq-answer">
-              We offer a 7-day hassle-free return policy for most of our products. Items must be unused, unwashed, and in their original packaging with all tags attached. Please check our Return Policy page for detailed terms.
+              We offer a 7-day return policy for our products. To be eligible for a return, the product must be unopened, unused, and in its original packaging with all factory seals intact. Please check our Return Policy page for detailed terms.
             </div>
           </div>
 

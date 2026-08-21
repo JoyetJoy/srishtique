@@ -324,7 +324,7 @@
   }
 
   .hamburger span {
-    background: var(--text-main);
+    background: #fff;
   }
 
   .navbar-links {
@@ -355,9 +355,9 @@
   .nav-link {
     display: block;
     padding: 16px 24px;
-    color: var(--text-main);
+    color: var(--bg-main);
     font-size: 15px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .nav-link::after {
@@ -367,7 +367,7 @@
   .nav-link:hover,
   .nav-link.active {
     color: #ebb055;
-    background: var(--bg-card);
+    background: var(--primary-dark);
   }
 
   .dropdown-menu {

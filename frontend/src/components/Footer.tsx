@@ -25,7 +25,7 @@ const Footer = () => {
           <div className="footer-brand">
             <Logo variant="light" size="md" />
             <p className="footer-desc">
-              Every day styles crafted for your<br />comfort and confidence
+              Premium spices, nuts, and authentic<br />Indian flavors delivered worldwide
             </p>
             <div className="footer-socials">
               <a href={brandFacebook || '#'} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="social-link">
@@ -90,7 +90,7 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <div className="container footer-bottom-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-          <p>@{new Date().getFullYear()} {brandName}. All Rights Reserved.</p>
+          <p>@{new Date().getFullYear()} DK Exporting. All Rights Reserved.</p>
           <p>Powered by Eayila consulting</p>
         </div>
       </div>

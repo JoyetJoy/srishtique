@@ -396,6 +396,7 @@ const ProductListingPage = () => {
               availableFilters={availableFilters}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
+              onClose={() => setIsFilterOpen(false)}
             />
           </div>
 

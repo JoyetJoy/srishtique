@@ -47,17 +47,10 @@ const AboutUsPage = () => {
               <h2>Our Story</h2>
               <p><strong>Founder: Devanand sunil</strong></p>
               <p>
-                Founded with a passion for bringing the finest agricultural products to the global market, 
-                DK Exporting was born from a simple idea: quality you can trust, partnership you can rely on.
+                At DK Exporting, we bring you the finest quality premium spices, nuts, and authentic Indian flavors directly from nature to your doorstep. Our commitment to quality, purity, and sustainable sourcing ensures that every product you receive meets the highest standards of culinary excellence.
               </p>
               <p>
-                We noticed that the market was filled with compromised quality. DK Exporting changes that. 
-                We meticulously select natural and healthy products, from bold aroma black pepper to creamy premium cashews, 
-                ensuring export quality in every package.
-              </p>
-              <p>
-                Whether it's small retail packs or large bulk orders, our commitment to hygienic packing 
-                and 100% natural goods empowers businesses and individuals to experience true flavor.
+                With decades of expertise in global trade, we have built a legacy of trust with customers worldwide, delivering the essence of tradition in every pack.
               </p>
             </div>
           </div>
