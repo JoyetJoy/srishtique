@@ -31,7 +31,7 @@ const TestimonialsSection = () => {
   return (
     <section className="testimonials-section">
       <div className="testimonials-container">
-        <h2 className="testimonials-heading">HEAR FROM OUR CUSTOMERS</h2>
+        <h2 className="testimonials-heading">Hear From Our Customers</h2>
 
         <div className="testimonials-carousel-wrap">
           <button className="carousel-arrow carousel-arrow-left" onClick={() => scroll('left')} aria-label="Previous">

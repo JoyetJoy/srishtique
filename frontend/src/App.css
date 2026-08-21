@@ -11,7 +11,7 @@ main {
 
 /* Trending Collection Section (formerly Jewellery) */
 .jewellery-section {
-  background: transparent;
+  background: var(--bg-main);
   padding: 64px 0;
 }
 
@@ -23,10 +23,10 @@ main {
 
 .jewellery-title {
   font-family: 'Playfair Display', serif;
-  font-size: 50px;
+  font-size: 32px;
   font-weight: 600;
   line-height: 1.2;
-  color: var(--text-main);
+  color: var(--primary);
   text-align: center;
   margin-bottom: 12px;
 }
@@ -35,9 +35,20 @@ main {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: 400;
-  color: var(--text-light);
+  color: var(--text-mid);
   text-align: center;
   margin-bottom: 40px;
+}
+
+/* Cream Background Override for Trending Section */
+.trending-section {
+  background: var(--bg-main);
+}
+.trending-section .jewellery-title {
+  color: var(--primary);
+}
+.trending-section .jewellery-subtitle {
+  color: var(--text-mid);
 }
 
 .jewellery-section .product-section {
@@ -96,7 +107,7 @@ main {
 
 @media (max-width: 480px) {
   .jewellery-title {
-    font-size: 26px !important;
+    font-size: 32px !important;
   }
   .jewellery-section .product-grid {
     gap: 10px !important;

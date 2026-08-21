@@ -1,5 +1,5 @@
 .bulk-section {
-  background-color: #f9f6f0;
+  background-color: var(--bg-main);
   margin: 60px 0;
   position: relative;
   overflow: hidden;

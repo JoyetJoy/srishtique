@@ -18,7 +18,7 @@
 
 .category-title {
   font-family: 'Playfair Display', serif;
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: 0;
@@ -98,7 +98,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: white;
+  background: var(--text-main);
   border: 1px solid var(--border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   display: flex;
@@ -189,7 +189,7 @@
   }
 
   .category-title {
-    font-size: 28px;
+    font-size: 32px;
     width: auto;
     height: auto;
     max-width: 100%;

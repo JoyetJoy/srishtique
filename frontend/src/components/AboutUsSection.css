@@ -16,7 +16,7 @@
 
 .about-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 4vw, 48px);
+  font-size: 32px;
   color: var(--primary);
   margin-bottom: 20px;
   font-weight: 600;
@@ -132,5 +132,9 @@
   
   .about-image {
     height: 400px;
+  }
+
+  .about-title {
+    font-size: 32px;
   }
 }

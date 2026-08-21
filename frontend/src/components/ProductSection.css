@@ -1,10 +1,10 @@
 .product-section {
   padding: 48px 0;
-  background: #ffffff;
+  background: var(--bg-main);
 }
 
 .product-section:nth-child(even) {
-  background: #ffffff;
+  background: var(--bg-card);
 }
 
 .section-header {

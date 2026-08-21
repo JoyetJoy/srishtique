@@ -12,12 +12,13 @@
 
 .testimonials-heading {
   font-family: 'Playfair Display', serif;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 600;
   letter-spacing: 0;
   color: var(--text-main);
   text-transform: none;
   margin-bottom: 32px;
+  text-align: center;
 }
 
 /* ─── Carousel Wrap ─── */
@@ -127,7 +128,8 @@
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   .testimonials-heading {
-    font-size: 11px;
+    font-size: 32px;
+    text-align: center;
   }
 
   .testimonial-card {
