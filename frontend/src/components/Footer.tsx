@@ -71,7 +71,7 @@ const Footer = () => {
           <div className="footer-newsletter">
             <h4 className="footer-heading">STAY CONECTED</h4>
             <p className="newsletter-desc">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+              Contact us for latest updates and offers.
             </p>
             <form className="newsletter-form" onSubmit={handleSubscribe}>
               <input
