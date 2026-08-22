@@ -614,7 +614,7 @@ const AdminProductForm = () => {
                 <input 
                   type="text" 
                   className="admin-input" 
-                  placeholder="e.g. ethnic wear, silk kurti, designer dress (comma separated)" 
+                  placeholder="e.g. premium spices, nuts (comma separated)" 
                   value={metaKeywords} 
                   onChange={e => setMetaKeywords(e.target.value)} 
                 />

@@ -294,7 +294,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
 
   return (
     <div className="product-info-wrap">
-      <h1 className="product-title">{product?.name || 'Readymade Cotton Cord Set'}</h1>
+      <h1 className="product-title">{product?.name || 'Premium Product'}</h1>
       
       <div className="product-price-row">
         <span className="product-price">₹{matchingVariant?.price || product?.price || '0'}</span>
@@ -366,23 +366,25 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
               <button className="qty-btn" onClick={() => handleQtyChange(1)}>+</button>
             </div>
             
-            <button className="btn-add-cart" onClick={handleAddToCart}>
-              ADD TO CART
-            </button>
-            
-            <button className="btn-buy-now" onClick={handleBuyNow}>
-              BUY NOW
-            </button>
+            <div className="action-buttons-wrap">
+              <button className="btn-add-cart" onClick={handleAddToCart}>
+                ADD TO CART
+              </button>
+              
+              <button className="btn-buy-now" onClick={handleBuyNow}>
+                BUY NOW
+              </button>
 
-            <button 
-              className={`btn-wishlist-large ${isInWishlist(product.id) ? 'active' : ''}`}
-              onClick={async () => await toggleWishlist(product.id)}
-              aria-label="Wishlist"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-            </button>
+              <button 
+                className={`btn-wishlist-large ${isInWishlist(product.id) ? 'active' : ''}`}
+                onClick={async () => await toggleWishlist(product.id)}
+                aria-label="Wishlist"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </>
       )}

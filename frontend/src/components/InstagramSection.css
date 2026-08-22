@@ -88,6 +88,9 @@
 }
 
 @media (max-width: 900px) {
+  .instagram-section {
+    padding: 32px 0;
+  }
   .instagram-grid {
     flex-direction: column;
   }

@@ -78,26 +78,7 @@ const AdminProducts = () => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', marginBottom: '24px', borderBottom: '1px solid #e2e8f0' }}>
-        <button 
-          onClick={() => { setType('ALL'); setPage(1); }}
-          style={{ padding: '12px 0', background: 'none', border: 'none', borderBottom: type === 'ALL' ? '2px solid #9f1239' : '2px solid transparent', color: type === 'ALL' ? '#9f1239' : '#64748b', fontWeight: 600, cursor: 'pointer', marginRight: '32px' }}
-        >
-          All Products
-        </button>
-        <button 
-          onClick={() => { setType('SPICE'); setPage(1); }}
-          style={{ padding: '12px 0', background: 'none', border: 'none', borderBottom: type === 'SPICE' ? '2px solid #9f1239' : '2px solid transparent', color: type === 'SPICE' ? '#9f1239' : '#64748b', fontWeight: 600, cursor: 'pointer', marginRight: '32px' }}
-        >
-          Spices
-        </button>
-        <button 
-          onClick={() => { setType('NUT'); setPage(1); }}
-          style={{ padding: '12px 0', background: 'none', border: 'none', borderBottom: type === 'NUT' ? '2px solid #9f1239' : '2px solid transparent', color: type === 'NUT' ? '#9f1239' : '#64748b', fontWeight: 600, cursor: 'pointer' }}
-        >
-          Nuts
-        </button>
-      </div>
+
 
       <div className="admin-card">
         <table className="admin-table">
@@ -106,7 +87,6 @@ const AdminProducts = () => {
               <th>S.NO</th>
               <th>Image</th>
               <th>Name</th>
-              <th>Type</th>
               <th>Status</th>
               <th>Variants</th>
               <th>Actions</th>
@@ -118,18 +98,6 @@ const AdminProducts = () => {
                 <td>{(page - 1) * limit + index + 1}</td>
                 <td>{p.images?.[0] && <img src={getImageUrl(p.images[0])} alt={p.name} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />}</td>
                 <td>{p.name}</td>
-                <td>
-                  <span style={{ 
-                    padding: '2px 8px', 
-                    borderRadius: '4px', 
-                    fontSize: '12px', 
-                    fontWeight: 600,
-                    background: p.type === 'SPICE' ? '#fef3c7' : '#dbeafe',
-                    color: p.type === 'SPICE' ? '#92400e' : '#1e40af'
-                  }}>
-                    {p.type === 'SPICE' ? 'Spice' : (p.type === 'NUT' ? 'Nut' : p.type)}
-                  </span>
-                </td>
                 <td>
                   <label className="switch" style={{ position: 'relative', display: 'inline-block', width: '40px', height: '20px' }}>
                     <input 

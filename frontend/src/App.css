@@ -64,8 +64,14 @@ main {
   display: none;
 }
 
-.jewellery-section .product-grid {
-  gap: 50px;
+.jewellery-section .container {
+  padding: 0;
+}
+
+@media (min-width: 769px) {
+  .jewellery-section .product-grid {
+    gap: 50px;
+  }
 }
 
 .jewellery-section .section-cta {
@@ -99,17 +105,10 @@ main {
     margin-bottom: 24px;
     padding: 0 8px;
   }
-  .jewellery-section .product-grid {
-    gap: 12px !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
 }
 
 @media (max-width: 480px) {
   .jewellery-title {
     font-size: 32px !important;
-  }
-  .jewellery-section .product-grid {
-    gap: 10px !important;
   }
 }

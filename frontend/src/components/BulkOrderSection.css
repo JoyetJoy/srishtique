@@ -63,6 +63,10 @@
 
 /* ─── Mobile ─── */
 @media (max-width: 768px) {
+  .bulk-section {
+    margin: 32px 0;
+  }
+
   .bulk-inner {
     flex-direction: column;
     min-height: unset;

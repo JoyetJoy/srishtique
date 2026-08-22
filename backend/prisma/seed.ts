@@ -18,7 +18,7 @@ async function main() {
       imageUrl: 'srishtique/banners/hero_banner.png',
       subtitle: 'ROOTED IN TRADITION',
       title: 'Crafting Timeless Elegance for Every Occasion',
-      description: 'From luxurious ethnic wear to exquisite jewellery, every piece is carefully curated to celebrate tradition, craftsmanship, and the beauty of every moment.',
+      description: 'From the finest premium spices to handpicked natural nuts, every product is carefully curated to deliver authentic flavors, purity, and culinary excellence.',
       button1Text: 'EXPLORE COLLECTIONS',
       button1Url: '/collections',
       button2Text: 'OUR STORY',
@@ -37,7 +37,7 @@ async function main() {
       id: 'occ-slide-1',
       imageUrl: 'srishtique/banners/maternity_banner.png',
       title: 'Where Every Occasion\nFinds Its Perfect Look',
-      description: 'We believe every celebration deserves something extraordinary. At Srishtique, you\'ll discover thoughtfully curated ethnic wear and jewellery designed to complement every occasion with sophistication, comfort, and timeless charm.',
+      description: 'We believe every meal deserves something extraordinary. At DK Exporting, you\'ll discover thoughtfully curated spices and nuts designed to complement every dish with authentic flavor, quality, and timeless tradition.',
       linkText: 'KNOW OUR STORY',
       linkUrl: '/about'
     }

@@ -800,7 +800,7 @@ const AdminSettings = () => {
               className="admin-input" 
               value={seoTitle} 
               onChange={e => setSeoTitle(e.target.value)} 
-              placeholder="e.g. Buy Trending Ethnic Wear..." 
+              placeholder="e.g. Buy Trending Spices..." 
             />
           </div>
           <div className="admin-form-group">

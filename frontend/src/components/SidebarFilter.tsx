@@ -180,37 +180,6 @@ const SidebarFilter = ({
           </div>
         )}
 
-        {/* Product Type */}
-        {availableFilters.types.length > 0 && (
-          <div className="filter-section">
-            <button 
-              className="filter-section-header" 
-              onClick={() => toggleSection('types')}
-            >
-              <span>Product Type</span>
-              <svg className={`chevron ${openSection === 'types' ? 'open' : ''}`} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="m6 9 6 6 6-6"/>
-              </svg>
-            </button>
-            
-            {openSection === 'types' && (
-              <div className="filter-section-content">
-                {availableFilters.types.map((type) => (
-                  <label key={type} className="checkbox-label">
-                    <input 
-                      type="checkbox" 
-                      className="custom-checkbox" 
-                      checked={filters.types.includes(type)}
-                      onChange={() => handleCheckboxChange('types', type)}
-                    />
-                    <span className="checkbox-text">{type === 'CLOTHING' ? 'Clothing' : 'Ornament'}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
         {/* Price Range */}
         <div className="filter-section">
           <button 

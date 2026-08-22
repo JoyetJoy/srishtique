@@ -247,16 +247,10 @@ const AdminCategories = () => {
                   required 
                 />
               </div>
-              <div className="admin-form-group">
-                <label>Type</label>
-                <select className="admin-input" value={type} onChange={e => setType(e.target.value)}>
-                    <option value="ORNAMENT">Jewellery</option>
-                </select>
-              </div>
-                
+
               <div className="admin-form-group">
                   <label>Meta Title (SEO)</label>
-                  <input type="text" className="admin-input" value={metaTitle} onChange={e => setMetaTitle(e.target.value)} placeholder="e.g. Best Ethnic Wear..." />
+                  <input type="text" className="admin-input" value={metaTitle} onChange={e => setMetaTitle(e.target.value)} placeholder="e.g. Best Premium Spices..." />
               </div>
                 
               <div className="admin-form-group">
@@ -266,7 +260,7 @@ const AdminCategories = () => {
 
               <div className="admin-form-group">
                   <label>Meta Keywords / Tags (SEO)</label>
-                  <input type="text" className="admin-input" value={metaKeywords} onChange={e => setMetaKeywords(e.target.value)} placeholder="e.g. ethnic wear, silk sarees (comma separated)" />
+                  <input type="text" className="admin-input" value={metaKeywords} onChange={e => setMetaKeywords(e.target.value)} placeholder="e.g. premium spices, nuts (comma separated)" />
               </div>
 
               <div className="admin-form-group">
@@ -322,7 +316,6 @@ const AdminCategories = () => {
             <tr>
               <th>S.NO</th>
               <th>Name</th>
-              <th>Type</th>
               <th>Slug</th>
               <th>Image</th>
               <th>Products</th>
@@ -334,7 +327,6 @@ const AdminCategories = () => {
               <tr key={cat.id}>
                 <td>{(page - 1) * limit + index + 1}</td>
                 <td>{cat.name}</td>
-                <td><span style={{ padding: '4px 8px', background: cat.type === 'CLOTHING' ? '#e0e7ff' : '#fef3c7', color: cat.type === 'CLOTHING' ? '#4338ca' : '#d97706', borderRadius: '4px', fontSize: '12px', fontWeight: 600 }}>{cat.type || 'ORNAMENT'}</span></td>
                 <td>{cat.slug}</td>
                 <td>{cat.image ? <img src={getImageUrl(cat.image)} alt={cat.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
                 <td>{cat._count?.products || 0}</td>

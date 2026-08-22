@@ -11,11 +11,11 @@ interface SEOProps {
 }
 
 const SEO = ({
-  title = 'DK Exporting - Ethnic Wear for Every Occasion',
-  description = 'Discover beautiful ethnic wear at DK Exporting. Shop kurtis, suits, and jewellery for every occasion. Free shipping on orders above ₹999.',
+  title = 'DK Exporting - Premium Spices & Nuts',
+  description = 'At DK Exporting, we bring you the finest quality premium spices, nuts, and authentic Indian flavors directly from nature to your doorstep.',
   image = '/images/logo_footer.png',
   url = typeof window !== 'undefined' ? window.location.href : 'https://dk_exporting.com',
-  keywords = 'kurtis, ethnic wear, Indian fashion, anarkali, maternity wear, women clothing, designer kurtis, online fashion, DK Exporting clothing',
+  keywords = 'premium spices, nuts, Indian flavors, global trade, culinary excellence, authentic spices, DK Exporting',
   robots = 'index, follow',
   type = 'website',
 }: SEOProps) => {

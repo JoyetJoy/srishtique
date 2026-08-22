@@ -86,7 +86,7 @@ const AdminCollectionManager = ({ type, title }: Props) => {
               <th>S.NO</th>
               <th>Image</th>
               <th>Name</th>
-              <th>Type</th>
+              <th>Category</th>
               <th>Price</th>
             </tr>
           </thead>
@@ -96,7 +96,7 @@ const AdminCollectionManager = ({ type, title }: Props) => {
                 <td>{index + 1}</td>
                 <td>{p.images?.[0] ? <img src={getImageUrl(p.images[0])} alt={p.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
                 <td style={{ fontWeight: 500 }}>{p.name}</td>
-                <td>{p.category?.name || p.type || '-'}</td>
+                <td>{p.category?.name || '-'}</td>
                 <td>₹{p.variants?.[0]?.price || 'N/A'}</td>
               </tr>
             ))}

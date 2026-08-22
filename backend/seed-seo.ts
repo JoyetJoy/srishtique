@@ -8,8 +8,8 @@ async function main() {
   const pages = [
     {
       pagePath: '/',
-      metaTitle: 'Srishtique - Premium Ethnic Wear',
-      metaDescription: 'Shop the finest collection of premium ethnic wear, kurtis, suits, and jewellery at Srishtique.',
+      metaTitle: 'DK Exporting - Premium Spices & Nuts',
+      metaDescription: 'Shop the finest collection of premium spices, nuts, and authentic Indian flavors at DK Exporting.',
     },
     {
       pagePath: '/cart',
@@ -24,7 +24,7 @@ async function main() {
     {
       pagePath: '/about-us',
       metaTitle: 'About Us - Srishtique',
-      metaDescription: 'Learn more about Srishtique, our journey, and our passion for premium ethnic wear.',
+      metaDescription: 'Learn more about DK Exporting, our journey, and our passion for premium spices and authentic flavors.',
     },
     {
       pagePath: '/contact',
@@ -69,7 +69,7 @@ async function main() {
     {
       pagePath: '/signup',
       metaTitle: 'Sign Up - Srishtique | Create an Account',
-      metaDescription: 'Create your Srishtique account with quick mobile OTP verification to explore our premium ethnic wear collection.',
+      metaDescription: 'Create your DK Exporting account with quick mobile OTP verification to explore our premium spices and nuts collection.',
     },
     {
       pagePath: '/forgot-password',

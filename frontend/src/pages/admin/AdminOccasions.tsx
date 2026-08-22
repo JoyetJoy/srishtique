@@ -247,7 +247,7 @@ const AdminOccasions = () => {
 
               <div className="admin-form-group">
                 <label>Meta Title (SEO)</label>
-                <input type="text" className="admin-input" value={metaTitle} onChange={e => setMetaTitle(e.target.value)} placeholder="e.g. Best Ethnic Wear for Occasions..." />
+                <input type="text" className="admin-input" value={metaTitle} onChange={e => setMetaTitle(e.target.value)} placeholder="e.g. Best Spices for Occasions..." />
               </div>
               
               <div className="admin-form-group">
@@ -257,7 +257,7 @@ const AdminOccasions = () => {
 
               <div className="admin-form-group">
                 <label>Meta Keywords / Tags (SEO)</label>
-                <input type="text" className="admin-input" value={metaKeywords} onChange={e => setMetaKeywords(e.target.value)} placeholder="e.g. wedding wear, festive kurtis (comma separated)" />
+                <input type="text" className="admin-input" value={metaKeywords} onChange={e => setMetaKeywords(e.target.value)} placeholder="e.g. festive spices, natural nuts (comma separated)" />
               </div>
 
               <div className="admin-form-group">

@@ -74,7 +74,7 @@ const SignupPage = () => {
       <StaticSEO 
         pagePath="/signup" 
         defaultTitle="Sign Up - DK Exporting | Create an Account" 
-        defaultDescription="Create your DK Exporting account with quick mobile OTP verification to explore our premium ethnic wear collection." 
+        defaultDescription="Create your DK Exporting account with quick mobile OTP verification to explore our premium spices and nuts collection." 
       />
       <div className="auth-container">
         <h2>Create an Account</h2>
