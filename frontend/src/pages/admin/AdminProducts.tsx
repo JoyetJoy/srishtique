@@ -9,7 +9,6 @@ const AdminProducts = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [type, setType] = useState('ALL');
   const limit = 10;
   
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -21,11 +20,11 @@ const AdminProducts = () => {
       fetchProducts();
     }, 300);
     return () => clearTimeout(timer);
-  }, [page, search, type]);
+  }, [page, search]);
 
   const fetchProducts = async () => {
     try {
-      const query = new URLSearchParams({ search, page: page.toString(), limit: limit.toString(), type });
+      const query = new URLSearchParams({ search, page: page.toString(), limit: limit.toString() });
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/products?${query.toString()}`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('dk_exporting_token')}` } });
       if (res.ok) {
         const data = await res.json();

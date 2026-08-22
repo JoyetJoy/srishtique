@@ -7,7 +7,7 @@ import { useSiteSettings } from '../context/SiteSettingsContext';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
-  const { brandName, brandInstagram, brandFacebook, brandWhatsapp } = useSiteSettings();
+  const { brandInstagram, brandFacebook, brandWhatsapp } = useSiteSettings();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
