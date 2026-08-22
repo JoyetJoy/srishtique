@@ -24,7 +24,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
   const [activeColor, setActiveColor] = useState(0);
   const [activeSize, setActiveSize] = useState('M');
   const [quantity, setQuantity] = useState(1);
-  const [openAccordions, setOpenAccordions] = useState<number[]>([]);
+  const [openAccordions, setOpenAccordions] = useState<number[]>([0]);
   const [isCheckoutDrawerOpen, setIsCheckoutDrawerOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -216,50 +216,66 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
     setIsCheckoutDrawerOpen(true);
   };
 
-  const baseAccordions = [
-    { 
-      title: 'Product Details', 
+  const baseAccordions: any[] = [];
+  
+  const hasProductDetails = product?.productDetails && product.productDetails.length > 0;
+  const hasSizeAndFit = !!product?.sizeAndFit;
+  const hasMaterial = product?.materialAndCare && product.materialAndCare.length > 0;
+  const hasSpecs = product?.specifications && Object.keys(product.specifications).length > 0;
+
+  if (hasProductDetails || hasSizeAndFit || hasMaterial || hasSpecs) {
+    baseAccordions.push({
+      title: 'Product Details',
       content: (
         <div className="product-details-content">
-          <ul className="details-list">
-            <li>Colour: lime green</li>
-            <li>Solid woven design</li>
-            <li>Round neck</li>
-            <li>Three-Quarter Sleeves, regular sleeves</li>
-            <li>Straight shape</li>
-            <li>Thread work detail</li>
-            <li>Calf length with straight hem</li>
-            <li>Dobby regular cotton</li>
-          </ul>
+          {hasProductDetails && (
+            <ul className="details-list">
+              {product.productDetails.map((detail: string, i: number) => (
+                <li key={i}>{detail}</li>
+              ))}
+            </ul>
+          )}
 
-          <h4 className="details-subtitle">Size & Fit</h4>
-          <p className="details-text">The model (height 5'8) is wearing a size S</p>
+          {hasSizeAndFit && (
+            <>
+              <h4 className="details-subtitle">Size & Fit</h4>
+              <p className="details-text">{product.sizeAndFit}</p>
+            </>
+          )}
 
-          <h4 className="details-subtitle">Material & Care</h4>
-          <p className="details-text">Cotton<br/>Hand Wash</p>
+          {hasMaterial && (
+            <>
+              <h4 className="details-subtitle">Material & Care</h4>
+              <p className="details-text">
+                {product.materialAndCare.map((item: string, i: number) => (
+                  <span key={i}>{item}<br/></span>
+                ))}
+              </p>
+            </>
+          )}
 
-          <h4 className="details-subtitle">Specifications</h4>
-          <div className="specifications-grid">
-            <div className="spec-item"><span className="spec-key">Sleeve Length</span><span className="spec-val">Three-Quarter Sleeves</span></div>
-            <div className="spec-item"><span className="spec-key">Shape</span><span className="spec-val">Straight</span></div>
-            <div className="spec-item"><span className="spec-key">Neck</span><span className="spec-val">Round Neck</span></div>
-            <div className="spec-item"><span className="spec-key">Design Styling</span><span className="spec-val">Regular</span></div>
-            <div className="spec-item"><span className="spec-key">Slit Detail</span><span className="spec-val">Side Slits</span></div>
-            <div className="spec-item"><span className="spec-key">Ornamentation</span><span className="spec-val">Thread Work</span></div>
-            <div className="spec-item"><span className="spec-key">Length</span><span className="spec-val">Calf Length</span></div>
-            <div className="spec-item"><span className="spec-key">Hemline</span><span className="spec-val">Straight</span></div>
-            <div className="spec-item"><span className="spec-key">Colour Family</span><span className="spec-val">Bright</span></div>
-            <div className="spec-item"><span className="spec-key">Weave Pattern</span><span className="spec-val">Dobby</span></div>
-            <div className="spec-item"><span className="spec-key">Weave Type</span><span className="spec-val">Machine Weave</span></div>
-            <div className="spec-item"><span className="spec-key">Number of Items</span><span className="spec-val">1</span></div>
-            <div className="spec-item"><span className="spec-key">Package Contains</span><span className="spec-val">1 kurta</span></div>
-          </div>
+          {hasSpecs && (
+            <>
+              <h4 className="details-subtitle">Specifications</h4>
+              <div className="specifications-grid">
+                {Object.entries(product.specifications).map(([key, val]) => (
+                  <div className="spec-item" key={key}>
+                    <span className="spec-key">{key}</span>
+                    <span className="spec-val">{val as React.ReactNode}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       )
-    },
+    });
+  }
+
+  baseAccordions.push(
     { title: 'Shipping', content: <p className="details-text">Free shipping on orders above ₹999. Standard delivery within 3-5 business days.</p> },
-    { title: 'Additional Information', content: <p className="details-text">Machine wash cold with like colors. Do not bleach. Tumble dry low.</p> }
-  ];
+    { title: 'Additional Information', content: <p className="details-text">Store in a cool, dry place to maintain freshness. Best before 12 months from the date of packaging.</p> }
+  );
 
   const sizeChartContent = (
     <div style={{ padding: '5px 0' }}>
