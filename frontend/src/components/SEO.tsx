@@ -20,6 +20,7 @@ const SEO = ({
   type = 'website',
 }: SEOProps) => {
   const fullTitle = title.includes('DK Exporting') ? title : `${title} | DK Exporting`;
+  const absoluteImage = image.startsWith('http') ? image : `https://dktraders-phi.vercel.app${image.startsWith('/') ? '' : '/'}${image}`;
 
   return (
     <Helmet>
@@ -34,7 +35,7 @@ const SEO = ({
       <meta property="og:type" content={type} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={absoluteImage} />
       <meta property="og:url" content={url} />
       <meta property="og:site_name" content="DK Exporting" />
       <meta property="og:locale" content="en_IN" />
@@ -43,7 +44,7 @@ const SEO = ({
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={absoluteImage} />
       <meta name="twitter:site" content="@dk_exporting" />
       <meta name="twitter:creator" content="@dk_exporting" />
     </Helmet>
