@@ -52,7 +52,7 @@ const AdminSettings = () => {
   const [isOccasionUploading, setIsOccasionUploading] = useState<Record<string, boolean>>({});
 
   // SEO State
-  const [selectedSeoPage, setSelectedSeoPage] = useState('SEO_CLOTHES');
+  const [selectedSeoPage, setSelectedSeoPage] = useState('SEO_PRODUCTS');
   const [seoTitle, setSeoTitle] = useState('');
   const [seoDescription, setSeoDescription] = useState('');
   const [isSavingSeo, setIsSavingSeo] = useState(false);
@@ -787,8 +787,7 @@ const AdminSettings = () => {
               value={selectedSeoPage} 
               onChange={e => setSelectedSeoPage(e.target.value)}
             >
-              <option value="SEO_CLOTHES">Clothes</option>
-              <option value="SEO_ORNAMENTS">Jewellery / Ornaments</option>
+              <option value="SEO_PRODUCTS">Products</option>
               <option value="SEO_TRENDING">Trending</option>
               <option value="SEO_NEW_ARRIVALS">New Arrivals</option>
             </select>

@@ -121,15 +121,6 @@ const ProductListingPage = () => {
       };
     }
 
-    if (path === '/clothes') {
-      return {
-        type: 'clothes',
-        title: 'CLOTHING',
-        showCategoryFilter: true,
-        defaultTypeFilter: 'CLOTHING'
-      };
-    }
-
     if (path === '/products') {
       return {
         type: 'products',
@@ -157,8 +148,7 @@ const ProductListingPage = () => {
   useEffect(() => {
     const fetchStaticSeo = async () => {
       let key = '';
-      if (pageDetails.type === 'clothes') key = 'SEO_CLOTHES';
-      else if (pageDetails.type === 'products') key = 'SEO_ORNAMENTS';
+      if (pageDetails.type === 'products') key = 'SEO_PRODUCTS';
       else if (pageDetails.type === 'trending') key = 'SEO_TRENDING';
       else if (pageDetails.type === 'new-arrivals') key = 'SEO_NEW_ARRIVALS';
 
