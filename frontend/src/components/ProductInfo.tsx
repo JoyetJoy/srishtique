@@ -23,7 +23,7 @@ const colorHexMap: { [key: string]: string } = {
 const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?: (color: string) => void }) => {
   const [activeColor, setActiveColor] = useState(0);
   const [activeSize, setActiveSize] = useState('M');
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState<number | string>(1);
   const [openAccordions, setOpenAccordions] = useState<number[]>([0]);
   const [isCheckoutDrawerOpen, setIsCheckoutDrawerOpen] = useState(false);
 
@@ -162,7 +162,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
             state: {
               directBuy: {
                 productVariantId: matchingVariant.id,
-                quantity: quantity,
+                quantity: typeof quantity === 'number' ? quantity : 1,
                 price: matchingVariant.price,
                 productName: product.name,
                 color: selectedColorName || matchingVariant.color,
@@ -185,7 +185,8 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
       toast.error('This variant is currently out of stock');
       return;
     }
-    addToCart(product, activeSize, selectedColorName || matchingVariant.color, quantity, matchingVariant.id, matchingVariant.price, matchingVariant.originalPrice);
+    const finalQty = typeof quantity === 'number' ? quantity : 1;
+    addToCart(product, activeSize, selectedColorName || matchingVariant.color, finalQty, matchingVariant.id, matchingVariant.price, matchingVariant.originalPrice);
     toast.success(`${product.name} added to cart!`);
   };
 
@@ -201,7 +202,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
         state: {
           directBuy: {
             productVariantId: matchingVariant.id,
-            quantity: quantity,
+            quantity: typeof quantity === 'number' ? quantity : 1,
             price: matchingVariant.price,
             productName: product.name,
             color: selectedColorName || matchingVariant.color,
@@ -299,7 +300,10 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
     : baseAccordions;
 
   const handleQtyChange = (delta: number) => {
-    setQuantity(prev => Math.max(1, prev + delta));
+    setQuantity(prev => {
+      const current = typeof prev === 'number' ? prev : 1;
+      return Math.max(1, current + delta);
+    });
   };
 
   const toggleAccordion = (index: number) => {
@@ -374,10 +378,18 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
             <div className="qty-selector">
               <button className="qty-btn" onClick={() => handleQtyChange(-1)}>−</button>
               <input 
-                type="number" 
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 className="qty-input" 
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/[^0-9]/g, '');
+                  setQuantity(val ? parseInt(val) : '');
+                }}
+                onBlur={() => {
+                  if (quantity === '') setQuantity(1);
+                }}
               />
               <button className="qty-btn" onClick={() => handleQtyChange(1)}>+</button>
             </div>
@@ -434,7 +446,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
         onClose={() => setIsCheckoutDrawerOpen(false)} 
         product={product} 
         variantId={matchingVariant?.id || 0} 
-        quantity={quantity} 
+        quantity={typeof quantity === 'number' ? quantity : 1} 
         price={matchingVariant?.price || product?.price || 0} 
         size={activeSize} 
       />

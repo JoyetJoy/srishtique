@@ -26,7 +26,7 @@ export const uploadToSpaces = async (file: Express.Multer.File, folder: string =
   const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
   const key = `dk_exporting/${folder}/${fileName}`;
   
-  // Compress and optimize the image using sharp
+  // Compress and optimize the main image
   const optimizedBuffer = await sharp(file.buffer)
     .resize(1200, 1200, {
       fit: 'inside',
@@ -35,7 +35,19 @@ export const uploadToSpaces = async (file: Express.Multer.File, folder: string =
     .webp({ quality: 80 })
     .toBuffer();
 
-  const params = {
+  // Create a 150x150 thumbnail
+  const thumbBuffer = await sharp(file.buffer)
+    .resize(150, 150, {
+      fit: 'cover',
+      position: 'center'
+    })
+    .webp({ quality: 60 })
+    .toBuffer();
+
+  const thumbFileName = fileName.replace('.webp', '-thumb.webp');
+  const thumbKey = `dk_exporting/${folder}/${thumbFileName}`;
+
+  const mainParams = {
     Bucket: process.env.DO_BUCKET || '',
     Key: key,
     Body: optimizedBuffer,
@@ -43,7 +55,18 @@ export const uploadToSpaces = async (file: Express.Multer.File, folder: string =
     ContentType: 'image/webp',
   };
 
-  await s3.putObject(params).promise();
+  const thumbParams = {
+    Bucket: process.env.DO_BUCKET || '',
+    Key: thumbKey,
+    Body: thumbBuffer,
+    ACL: 'public-read',
+    ContentType: 'image/webp',
+  };
+
+  await Promise.all([
+    s3.putObject(mainParams).promise(),
+    s3.putObject(thumbParams).promise()
+  ]);
   
   // Return the relative key (e.g. dk_exporting/products/123.jpg)
   return key;

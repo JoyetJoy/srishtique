@@ -26,20 +26,23 @@ export const getCategories = async (req: Request, res: Response) => {
   const skip = (Number(page) - 1) * Number(limit);
   const take = Number(limit);
 
-  const where = {
-    name: { contains: search as string }
-  };
+  const where: any = {};
+  if (search) {
+    where.name = { contains: search as string, mode: 'insensitive' };
+  }
 
   const [categories, total] = await Promise.all([
     prisma.category.findMany({
       where,
       skip,
       take,
-      include: {
-        sizeChartMaster: true,
-        _count: {
-          select: { products: true }
-        }
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        image: true,
+        type: true,
+        _count: { select: { products: true } }
       }
     }),
     prisma.category.count({ where })
@@ -186,9 +189,10 @@ export const getProducts = async (req: Request, res: Response) => {
   const skip = (Number(page) - 1) * Number(limit);
   const take = Number(limit);
 
-  const where: any = {
-    name: { contains: search as string }
-  };
+  const where: any = {};
+  if (search) {
+    where.name = { contains: search as string, mode: 'insensitive' };
+  }
 
   if (type !== 'ALL') {
     where.type = type;
@@ -200,7 +204,16 @@ export const getProducts = async (req: Request, res: Response) => {
       skip,
       take,
       orderBy: { createdAt: 'desc' },
-      include: { category: { include: { sizeChartMaster: true } }, sizeChartMaster: true, occasions: true, variants: true },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        images: true,
+        isNewArrival: true,
+        isTrending: true,
+        category: { select: { name: true } },
+        variants: { select: { price: true, originalPrice: true, stock: true } },
+      }
     }),
     prisma.product.count({ where })
   ]);
@@ -404,9 +417,9 @@ export const getCustomers = async (req: Request, res: Response) => {
     
     if (search) {
       where.OR = [
-        { name: { contains: search as string } },
-        { email: { contains: search as string } },
-        { phone: { contains: search as string } }
+        { name: { contains: search as string, mode: 'insensitive' } },
+        { email: { contains: search as string, mode: 'insensitive' } },
+        { phone: { contains: search as string, mode: 'insensitive' } }
       ];
     }
 
@@ -415,10 +428,14 @@ export const getCustomers = async (req: Request, res: Response) => {
         where,
         skip,
         take,
-        include: {
-          _count: {
-            select: { orders: true }
-          }
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          role: true,
+          createdAt: true,
+          _count: { select: { orders: true } }
         },
         orderBy: { createdAt: 'desc' }
       }),
@@ -518,33 +535,46 @@ export const getAllOrders = async (req: Request, res: Response) => {
 
     if (search && typeof search === 'string') {
       const searchStr = search.trim();
-      const isNumber = !isNaN(Number(searchStr));
+      if (searchStr) {
+        const isNumber = !isNaN(Number(searchStr));
 
-      whereClause.OR = [
-        { user: { name: { contains: searchStr } } },
-        { user: { email: { contains: searchStr } } }
-      ];
+        whereClause.OR = [
+          { user: { name: { contains: searchStr, mode: 'insensitive' } } },
+          { user: { email: { contains: searchStr, mode: 'insensitive' } } }
+        ];
 
-      if (isNumber) {
-        whereClause.OR.push({ id: Number(searchStr) });
+        if (isNumber) {
+          whereClause.OR.push({ id: Number(searchStr) });
+        }
       }
     }
 
     const orders = await prisma.order.findMany({
       where: whereClause,
-      include: {
+      select: {
+        id: true,
+        totalAmount: true,
+        status: true,
+        createdAt: true,
         user: { select: { name: true, email: true, phone: true } },
         items: {
-          include: {
+          select: {
+            id: true,
+            quantity: true,
+            priceAtPurchase: true,
             productVariant: {
-              include: {
-                product: true
+              select: {
+                id: true,
+                size: true,
+                color: true,
+                product: { select: { id: true, name: true, images: true } }
               }
             }
           }
-        }
+        },
+        shippingAddress: true
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
     });
 
     res.json(orders);
@@ -996,7 +1026,7 @@ export const getBulkOrderById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const order = await prisma.bulkOrderInquiry.findUnique({
-      where: { id: parseInt(id) }
+      where: { id: parseInt(id as string) }
     });
     
     if (!order) return res.status(404).json({ error: 'Bulk order not found' });
@@ -1016,7 +1046,7 @@ export const updateBulkOrderStatus = async (req: Request, res: Response) => {
     if (!status) return res.status(400).json({ error: 'Status is required' });
 
     const updated = await prisma.bulkOrderInquiry.update({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(id as string) },
       data: { status }
     });
     

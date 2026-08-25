@@ -273,7 +273,7 @@ const AdminOccasions = () => {
                   </div>
                   {image && !imageFile && (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src={getImageUrl(image)} alt="Grid Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e2e8f0' }} />
+                      <img src={getImageUrl(image, true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(image); }} alt="Grid Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e2e8f0' }} />
                       <span style={{fontSize: '10px', color: '#64748b', marginTop: '4px'}}>Current</span>
                     </div>
                   )}
@@ -293,7 +293,7 @@ const AdminOccasions = () => {
                   </div>
                   {heroImage && !heroImageFile && (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src={getImageUrl(heroImage)} alt="Hero Preview" style={{ width: '120px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e2e8f0' }} />
+                      <img src={getImageUrl(heroImage, true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(heroImage); }} alt="Hero Preview" style={{ width: '120px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e2e8f0' }} />
                       <span style={{fontSize: '10px', color: '#64748b', marginTop: '4px'}}>Current</span>
                     </div>
                   )}
@@ -351,7 +351,7 @@ const AdminOccasions = () => {
                           }
                         }}
                       />
-                      <img src={getImageUrl(p.images?.[0])} alt={p.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', flexShrink: 0 }} />
+                      <img src={getImageUrl(p.images?.[0], true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(p.images?.[0]); }} alt={p.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', flexShrink: 0 }} />
                       <span style={{ fontSize: '14px', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
                       <span style={{ fontSize: '13px', color: '#64748b', whiteSpace: 'nowrap', flexShrink: 0, paddingRight: '12px' }}>₹{p.variants?.[0]?.price || 'N/A'}</span>
                     </label>
@@ -389,8 +389,8 @@ const AdminOccasions = () => {
                 <td>{index + 1}</td>
                 <td style={{ fontWeight: 600 }}>{occ.name}</td>
                 <td>{occ.slug}</td>
-                <td>{occ.image ? <img src={getImageUrl(occ.image)} alt={occ.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
-                <td>{occ.heroImage ? <img src={getImageUrl(occ.heroImage)} alt={occ.name} style={{ width: '80px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
+                <td>{occ.image ? <img src={getImageUrl(occ.image, true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(occ.image); }} alt={occ.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
+                <td>{occ.heroImage ? <img src={getImageUrl(occ.heroImage, true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(occ.heroImage); }} alt={occ.name} style={{ width: '80px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
                 <td>{occ._count?.products || 0}</td>
                 <td>
                   <button 

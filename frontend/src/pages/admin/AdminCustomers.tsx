@@ -11,6 +11,10 @@ const AdminCustomers = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!search) {
+      fetchCustomers();
+      return;
+    }
     const timer = setTimeout(() => {
       fetchCustomers();
     }, 300);

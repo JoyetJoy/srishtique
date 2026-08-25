@@ -47,6 +47,10 @@ const AdminCategories = () => {
   };
 
   useEffect(() => {
+    if (!search) {
+      fetchCategories();
+      return;
+    }
     const timer = setTimeout(() => {
       fetchCategories();
     }, 300);
@@ -293,7 +297,7 @@ const AdminCategories = () => {
                   </div>
                   {image && !imageFile && (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src={getImageUrl(image)} alt="Category Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e2e8f0' }} />
+                      <img src={getImageUrl(image, true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(image); }} alt="Category Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e2e8f0' }} />
                       <span style={{fontSize: '10px', color: '#64748b', marginTop: '4px'}}>Current</span>
                     </div>
                   )}
@@ -328,7 +332,7 @@ const AdminCategories = () => {
                 <td>{(page - 1) * limit + index + 1}</td>
                 <td>{cat.name}</td>
                 <td>{cat.slug}</td>
-                <td>{cat.image ? <img src={getImageUrl(cat.image)} alt={cat.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
+                <td>{cat.image ? <img src={getImageUrl(cat.image, true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(cat.image); }} alt={cat.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}/> : '-'}</td>
                 <td>{cat._count?.products || 0}</td>
                 <td>
                     <button className="admin-icon-btn" onClick={() => openEditModal(cat)} aria-label="Edit" title="Edit">

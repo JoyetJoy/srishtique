@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import ConfirmModal from '../../components/ConfirmModal';
 
 const AdminProducts = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
@@ -16,6 +16,10 @@ const AdminProducts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!search) {
+      fetchProducts();
+      return;
+    }
     const timer = setTimeout(() => {
       fetchProducts();
     }, 300);
@@ -95,7 +99,7 @@ const AdminProducts = () => {
             {products.map((p: any, index: number) => (
               <tr key={p.id}>
                 <td>{(page - 1) * limit + index + 1}</td>
-                <td>{p.images?.[0] && <img src={getImageUrl(p.images[0])} alt={p.name} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />}</td>
+                <td>{p.images?.[0] && <img src={getImageUrl(p.images[0], true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(p.images[0]); }} alt={p.name} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />}</td>
                 <td>{p.name}</td>
                 <td>
                   <label className="switch" style={{ position: 'relative', display: 'inline-block', width: '40px', height: '20px' }}>
@@ -103,6 +107,9 @@ const AdminProducts = () => {
                       type="checkbox" 
                       checked={p.isActive}
                       onChange={async (e) => {
+                        const newStatus = e.target.checked;
+                        // Optimistic update
+                        setProducts(prev => prev.map(prod => prod.id === p.id ? { ...prod, isActive: newStatus } : prod));
                         try {
                           const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/products/${p.id}/status`, {
                             method: 'PUT',
@@ -110,15 +117,18 @@ const AdminProducts = () => {
                               'Content-Type': 'application/json',
                               'Authorization': `Bearer ${localStorage.getItem('dk_exporting_token')}`
                             },
-                            body: JSON.stringify({ isActive: e.target.checked })
+                            body: JSON.stringify({ isActive: newStatus })
                           });
                           if (res.ok) {
-                            fetchProducts();
-                            toast.success(`Product ${e.target.checked ? 'activated' : 'deactivated'}`);
+                            toast.success(`Product ${newStatus ? 'activated' : 'deactivated'}`);
                           } else {
+                            // Revert on failure
+                            setProducts(prev => prev.map(prod => prod.id === p.id ? { ...prod, isActive: !newStatus } : prod));
                             toast.error('Failed to update product status');
                           }
                         } catch (err) {
+                          // Revert on error
+                          setProducts(prev => prev.map(prod => prod.id === p.id ? { ...prod, isActive: !newStatus } : prod));
                           toast.error('Error updating product status');
                         }
                       }}

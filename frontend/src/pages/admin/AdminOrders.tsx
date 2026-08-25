@@ -82,6 +82,10 @@ const AdminOrders = () => {
   };
 
   useEffect(() => {
+    if (!search) {
+      fetchOrders();
+      return;
+    }
     // Debounce search slightly
     const delayDebounceFn = setTimeout(() => {
       fetchOrders();
@@ -563,7 +567,7 @@ const AdminOrders = () => {
                             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                               <div style={{ width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', background: '#f1f5f9', border: '1px solid #e2e8f0', flexShrink: 0 }}>
                                 {item.productVariant.product.images?.[0] ? (
-                                  <img src={getImageUrl(item.productVariant.product.images[0])} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                  <img src={getImageUrl(item.productVariant.product.images[0], true)} onError={(e) => { (e.target as HTMLImageElement).src = getImageUrl(item.productVariant.product.images[0]); }} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 ) : (
                                   <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1' }}><Package size={24} /></div>
                                 )}
