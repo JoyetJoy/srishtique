@@ -9,6 +9,8 @@ interface AddAddressModalProps {
   customToken?: string;
 }
 
+import { Country, State } from 'country-state-city';
+
 const AddAddressModal: React.FC<AddAddressModalProps> = ({ isOpen, onClose, onAddressSaved, customToken }) => {
   const [countries, setCountries] = useState<any[]>([]);
   const [states, setStates] = useState<any[]>([]);
@@ -27,26 +29,20 @@ const AddAddressModal: React.FC<AddAddressModalProps> = ({ isOpen, onClose, onAd
 
   useEffect(() => {
     if (isOpen) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/public/countries`)
-        .then(res => res.json())
-        .then(data => {
-          setCountries(data || []);
-          // Auto select India if found
-          const india = data?.find((c: any) => c.name.toLowerCase() === 'india');
-          if (india) {
-            setCountryId(india.id.toString());
-          }
-        })
-        .catch(() => setError('Failed to load countries'));
+      const allCountries = Country.getAllCountries();
+      setCountries(allCountries);
+      // Auto select India if found
+      const india = allCountries.find(c => c.name.toLowerCase() === 'india');
+      if (india) {
+        setCountryId(india.isoCode);
+      }
     }
   }, [isOpen]);
 
   useEffect(() => {
     if (countryId) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/public/states?countryId=${countryId}`)
-        .then(res => res.json())
-        .then(data => setStates(data || []))
-        .catch(() => setStates([]));
+      const countryStates = State.getStatesOfCountry(countryId);
+      setStates(countryStates);
     } else {
       setStates([]);
     }
@@ -64,13 +60,11 @@ const AddAddressModal: React.FC<AddAddressModalProps> = ({ isOpen, onClose, onAd
     setLoading(true);
 
     try {
-      const countryName = countries.find(c => c.id === Number(countryId))?.name || '';
-      const stateName = states.find(s => s.id === Number(stateId))?.name || '';
+      const countryName = countries.find(c => c.isoCode === countryId)?.name || '';
+      const stateName = states.find(s => s.isoCode === stateId)?.name || '';
 
       const body = {
         street,
-        countryId: Number(countryId),
-        stateId: Number(stateId),
         country: countryName,
         state: stateName,
         city,
@@ -173,8 +167,8 @@ const AddAddressModal: React.FC<AddAddressModalProps> = ({ isOpen, onClose, onAd
             <div>
               <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 500, color: '#334155' }}>Country</label>
               <Select 
-                options={countries.map(c => ({ value: c.id.toString(), label: c.name }))}
-                value={countries.filter(c => c.id.toString() === countryId).map(c => ({ value: c.id.toString(), label: c.name }))[0] || null}
+                options={countries.map(c => ({ value: c.isoCode, label: c.name }))}
+                value={countries.filter(c => c.isoCode === countryId).map(c => ({ value: c.isoCode, label: c.name }))[0] || null}
                 onChange={(selected: any) => { setCountryId(selected ? selected.value : ''); setStateId(''); }}
                 placeholder="Select Country..."
                 styles={reactSelectStyles}
@@ -185,8 +179,8 @@ const AddAddressModal: React.FC<AddAddressModalProps> = ({ isOpen, onClose, onAd
             <div>
               <label style={{ display: 'block', marginBottom: '6px', fontSize: '14px', fontWeight: 500, color: '#334155' }}>State</label>
               <Select 
-                options={states.map(s => ({ value: s.id.toString(), label: s.name }))}
-                value={states.filter(s => s.id.toString() === stateId).map(s => ({ value: s.id.toString(), label: s.name }))[0] || null}
+                options={states.map(s => ({ value: s.isoCode, label: s.name }))}
+                value={states.filter(s => s.isoCode === stateId).map(s => ({ value: s.isoCode, label: s.name }))[0] || null}
                 onChange={(selected: any) => setStateId(selected ? selected.value : '')}
                 placeholder="Select State..."
                 isDisabled={!countryId}

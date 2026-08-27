@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Edit2, Trash2, MapPin, Plus } from 'lucide-react';
 import Select from 'react-select';
+import { Country, State } from 'country-state-city';
 
 import StaticSEO from '../components/StaticSEO';
 
@@ -57,16 +58,12 @@ const AddressPage = () => {
     }
     fetchProfile();
     
-    fetch(`${import.meta.env.VITE_API_URL}/api/public/countries`)
-      .then(res => res.json())
-      .then(data => setCountries(data));
+    setCountries(Country.getAllCountries());
   }, [token, navigate]);
 
   useEffect(() => {
     if (countryId) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/public/states?countryId=${countryId}`)
-        .then(res => res.json())
-        .then(data => setStates(data));
+      setStates(State.getStatesOfCountry(countryId));
     } else {
       setStates([]);
     }
@@ -105,12 +102,11 @@ const AddressPage = () => {
     setLoading(true);
 
     try {
-      const countryName = countries.find(c => c.id === Number(countryId))?.name || '';
-      const stateName = states.find(s => s.id === Number(stateId))?.name || '';
+      const countryName = countries.find(c => c.isoCode === countryId)?.name || '';
+      const stateName = states.find(s => s.isoCode === stateId)?.name || '';
 
       const body = {
-        street, countryId: Number(countryId), stateId: Number(stateId),
-        country: countryName, state: stateName, city, pincode, isDefault
+        street, country: countryName, state: stateName, city, pincode, isDefault
       };
 
       const url = editingAddressId 
@@ -173,10 +169,14 @@ const AddressPage = () => {
 
   const editAddress = (address: any) => {
     setStreet(address.street);
-    setCountryId(countries.find(c => c.name === address.country)?.id?.toString() || '');
-    setTimeout(() => {
-        setStateId(states.find(s => s.name === address.state)?.id?.toString() || '');
-    }, 300);
+    const cId = countries.find(c => c.name === address.country)?.isoCode || '';
+    setCountryId(cId);
+    if (cId) {
+        const cStates = State.getStatesOfCountry(cId);
+        setStateId(cStates.find(s => s.name === address.state)?.isoCode || '');
+    } else {
+        setStateId('');
+    }
     setCity(address.city || '');
     setPincode(address.pincode);
     setIsDefault(address.isDefault);
@@ -366,8 +366,8 @@ const AddressPage = () => {
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: 500, color: '#334155' }}>Country</label>
                     <Select 
-                      options={countries.map(c => ({ value: c.id.toString(), label: c.name }))}
-                      value={countries.filter(c => c.id.toString() === countryId).map(c => ({ value: c.id.toString(), label: c.name }))[0] || null}
+                      options={countries.map(c => ({ value: c.isoCode, label: c.name }))}
+                      value={countries.filter(c => c.isoCode === countryId).map(c => ({ value: c.isoCode, label: c.name }))[0] || null}
                       onChange={(selected: any) => { setCountryId(selected ? selected.value : ''); setStateId(''); }}
                       placeholder="Search Country..."
                       styles={reactSelectStyles}
@@ -378,8 +378,8 @@ const AddressPage = () => {
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: 500, color: '#334155' }}>State</label>
                     <Select 
-                      options={states.map(s => ({ value: s.id.toString(), label: s.name }))}
-                      value={states.filter(s => s.id.toString() === stateId).map(s => ({ value: s.id.toString(), label: s.name }))[0] || null}
+                      options={states.map(s => ({ value: s.isoCode, label: s.name }))}
+                      value={states.filter(s => s.isoCode === stateId).map(s => ({ value: s.isoCode, label: s.name }))[0] || null}
                       onChange={(selected: any) => { setStateId(selected ? selected.value : ''); }}
                       placeholder="Search State..."
                       isDisabled={!countryId}
