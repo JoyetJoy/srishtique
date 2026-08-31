@@ -8,6 +8,7 @@ import StaticSEO from '../../components/StaticSEO';
 import AddAddressModal from '../../components/AddAddressModal';
 import { MapPin } from 'lucide-react';
 import { getImageUrl } from '../../utils/imageUrl';
+import { Country, State } from 'country-state-city';
 
 const GuestLoginPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -43,14 +44,14 @@ const GuestLoginPage = () => {
     setStreet(addr.street);
     setPincode(addr.pincode);
     setCity(addr.city || '');
-    const foundCountry = countries.find(c => c.name === addr.country);
+    const allCountries = Country.getAllCountries();
+    const foundCountry = allCountries.find(c => c.name === addr.country);
     if (foundCountry) {
-      setCountryId(foundCountry.id.toString());
-      const stRes = await fetch(`${import.meta.env.VITE_API_URL}/api/public/states?countryId=${foundCountry.id}`);
-      const stData = await stRes.json();
+      setCountryId(foundCountry.isoCode);
+      const stData = State.getStatesOfCountry(foundCountry.isoCode);
       const foundState = stData.find((s: any) => s.name === addr.state);
       if (foundState) {
-        setStateId(foundState.id.toString());
+        setStateId(foundState.isoCode);
       }
     }
   };
@@ -82,18 +83,19 @@ const GuestLoginPage = () => {
 
   // Fetch countries
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/public/countries`)
-      .then(res => res.json())
-      .then(data => setCountries(data))
-      .catch(err => console.error('Failed to load countries', err));
+    const allCountries = Country.getAllCountries();
+    setCountries(allCountries);
+    const india = allCountries.find(c => c.name.toLowerCase() === 'india');
+    if (india) {
+      setCountryId(india.isoCode);
+    }
   }, []);
 
   // Fetch states
   useEffect(() => {
     if (countryId) {
-      fetch(`${import.meta.env.VITE_API_URL}/api/public/states?countryId=${countryId}`)
-        .then(res => res.json())
-        .then(data => setStates(data))
+      const countryStates = State.getStatesOfCountry(countryId);
+      setStates(countryStates);
     } else {
       setStates([]);
     }
@@ -594,8 +596,8 @@ const GuestLoginPage = () => {
                 <div className="auth-form-group">
                   <label>Country</label>
                   <Select 
-                    options={countries.map(c => ({ value: c.id.toString(), label: c.name }))}
-                    value={countries.filter(c => c.id.toString() === countryId).map(c => ({ value: c.id.toString(), label: c.name }))[0] || null}
+                    options={countries.map(c => ({ value: c.isoCode, label: c.name }))}
+                    value={countries.filter(c => c.isoCode === countryId).map(c => ({ value: c.isoCode, label: c.name }))[0] || null}
                     onChange={(selected: any) => {
                       setCountryId(selected ? selected.value : '');
                       setStateId('');
@@ -610,8 +612,8 @@ const GuestLoginPage = () => {
                 <div className="auth-form-group">
                   <label>State</label>
                   <Select 
-                    options={states.map(s => ({ value: s.id.toString(), label: s.name }))}
-                    value={states.filter(s => s.id.toString() === stateId).map(s => ({ value: s.id.toString(), label: s.name }))[0] || null}
+                    options={states.map(s => ({ value: s.isoCode, label: s.name }))}
+                    value={states.filter(s => s.isoCode === stateId).map(s => ({ value: s.isoCode, label: s.name }))[0] || null}
                     onChange={(selected: any) => {
                       setStateId(selected ? selected.value : '');
                     }}
