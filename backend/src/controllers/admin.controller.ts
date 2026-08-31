@@ -212,7 +212,10 @@ export const getProducts = async (req: Request, res: Response) => {
         isNewArrival: true,
         isTrending: true,
         category: { select: { name: true } },
-        variants: { select: { price: true, originalPrice: true, stock: true } },
+        variants: { 
+          where: { isDeleted: false },
+          select: { price: true, originalPrice: true, stock: true } 
+        }
       }
     }),
     prisma.product.count({ where })
@@ -375,10 +378,14 @@ export const updateProduct = async (req: Request, res: Response) => {
         try {
           await prisma.productVariant.delete({ where: { id: existing.id } });
         } catch (e) {
-          // If referenced by OrderItem, we can't delete. Set stock to 0 instead.
+          // If referenced by OrderItem, we can't delete. Set stock to 0 and soft delete instead.
           await prisma.productVariant.update({
             where: { id: existing.id },
-            data: { stock: 0 }
+            data: { 
+              stock: 0,
+              isDeleted: true,
+              size: `${existing.size}_del_${Date.now()}`
+            }
           });
         }
       }

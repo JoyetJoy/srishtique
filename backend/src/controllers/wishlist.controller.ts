@@ -60,7 +60,7 @@ export const getWishlist = async (req: AuthRequest, res: Response): Promise<void
       include: {
         product: {
           include: {
-            variants: true
+            variants: { where: { isDeleted: false } }
           }
         }
       },

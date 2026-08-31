@@ -68,6 +68,7 @@ export const getPublicProducts = async (req: Request, res: Response) => {
     if (minPrice || maxPrice) {
       where.variants = {
         some: {
+          isDeleted: false,
           price: {
             ...(minPrice && { gte: parseFloat(minPrice as string) }),
             ...(maxPrice && { lte: parseFloat(maxPrice as string) }),
@@ -82,7 +83,7 @@ export const getPublicProducts = async (req: Request, res: Response) => {
         category: { include: { sizeChartMaster: true } }, 
         sizeChartMaster: true, 
         occasions: true, 
-        variants: true 
+        variants: { where: { isDeleted: false } }
       },
       orderBy: { createdAt: 'desc' },
     });

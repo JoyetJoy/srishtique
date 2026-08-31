@@ -44,6 +44,7 @@ const AdminProductForm = () => {
   const [variants, setVariants] = useState<any[]>([
     { size: '', color: '', price: '', originalPrice: '', stock: '', sku: '', existingImages: [], imageFiles: [] }
   ]);
+  const [archivedVariants, setArchivedVariants] = useState<any[]>([]);
 
   // Bulk Variant Generator
   const [showBulkGen, setShowBulkGen] = useState(false);
@@ -95,7 +96,10 @@ const AdminProductForm = () => {
         
         // Convert variants
         if (prod.variants && prod.variants.length > 0) {
-          setVariants(prod.variants.map((v: any) => ({
+          const activeVars = prod.variants.filter((v: any) => !v.isDeleted);
+          const archivedVars = prod.variants.filter((v: any) => v.isDeleted);
+          
+          setVariants(activeVars.length > 0 ? activeVars.map((v: any) => ({
             size: v.size,
             color: v.color,
             price: v.price.toString(),
@@ -104,7 +108,9 @@ const AdminProductForm = () => {
             sku: v.sku || '',
             existingImages: v.images || [],
             imageFiles: []
-          })));
+          })) : [{ size: '', color: '', price: '', originalPrice: '', stock: '', sku: '', existingImages: [], imageFiles: [] }]);
+
+          setArchivedVariants(archivedVars);
         }
       }
     } catch (e) {
@@ -621,6 +627,47 @@ const AdminProductForm = () => {
               </div>
             </div>
           </div>
+
+          {archivedVariants.length > 0 && (
+            <div className="admin-card" style={{ marginTop: '24px', opacity: 0.8 }}>
+              <div className="admin-card-header" style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#475569', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+                  Archived Variants
+                </h2>
+                <p style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>These variants were deleted but retained for historical records (e.g. past orders).</p>
+              </div>
+              <div className="admin-card-body" style={{ overflowX: 'auto', paddingTop: '16px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px', textAlign: 'left' }}>
+                  <thead>
+                    <tr style={{ color: '#64748b', borderBottom: '1px solid #e2e8f0' }}>
+                      <th style={{ padding: '8px', fontWeight: 500 }}>Size</th>
+                      <th style={{ padding: '8px', fontWeight: 500 }}>Color</th>
+                      <th style={{ padding: '8px', fontWeight: 500 }}>Price</th>
+                      <th style={{ padding: '8px', fontWeight: 500 }}>Stock</th>
+                      <th style={{ padding: '8px', fontWeight: 500 }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {archivedVariants.map(v => (
+                      <tr key={v.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                        <td style={{ padding: '12px 8px' }}>{v.size.split('_del_')[0]}</td>
+                        <td style={{ padding: '12px 8px' }}>
+                          <span style={{ display: 'inline-block', width: '12px', height: '12px', borderRadius: '50%', backgroundColor: v.color, marginRight: '8px', border: '1px solid #cbd5e1' }}></span>
+                          {v.color}
+                        </td>
+                        <td style={{ padding: '12px 8px' }}>₹{v.price}</td>
+                        <td style={{ padding: '12px 8px' }}>{v.stock}</td>
+                        <td style={{ padding: '12px 8px' }}>
+                          <span style={{ backgroundColor: '#f1f5f9', color: '#64748b', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>Archived</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px', marginTop: '16px' }}>
             <button type="button" className="admin-btn-secondary" onClick={() => navigate('/admin/products')}>Cancel</button>

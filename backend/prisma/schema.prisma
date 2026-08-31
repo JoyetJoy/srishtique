@@ -152,6 +152,7 @@ model ProductVariant {
   stock           Int      @default(0)
   sku             String?  @unique @db.VarChar(100)
   images          Json?
+  isDeleted       Boolean  @default(false)
   orderItems      OrderItem[]
   stockNotifications StockNotification[]
 
