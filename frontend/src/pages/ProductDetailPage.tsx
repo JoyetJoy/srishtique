@@ -12,7 +12,7 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
-  const [activeColorName, setActiveColorName] = useState<string | undefined>();
+  const [activeVariant, setActiveVariant] = useState<any>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,45 +47,23 @@ const ProductDetailPage = () => {
   if (!product) return <Loader />;
 
   let allImages = [...(product.images || [])];
-  
-  if (product.variants) {
-    product.variants.forEach((v: any) => {
-      let parsedImages = v.images;
-      if (typeof parsedImages === 'string') {
-        try { parsedImages = JSON.parse(parsedImages); } catch(e){}
-      }
-      if (Array.isArray(parsedImages)) {
-        parsedImages.forEach(img => {
-          if (!allImages.includes(img)) {
-            allImages.push(img);
-          }
-        });
-      }
-    });
-  }
-
   let activeImageIndex = 0;
-  if (activeColorName) {
-    const variantsWithColor = product.variants?.filter((v: any) => v.color === activeColorName) || [];
-    const variantWithImages = variantsWithColor.find((v: any) => {
-      let parsed = v.images;
-      if (typeof parsed === 'string') {
-        try { parsed = JSON.parse(parsed); } catch(e){}
-      }
-      return Array.isArray(parsed) && parsed.length > 0;
-    });
-    
-    if (variantWithImages) {
-      let parsedImages = variantWithImages.images;
-      if (typeof parsedImages === 'string') {
-        try { parsedImages = JSON.parse(parsedImages); } catch(e){}
-      }
-      if (Array.isArray(parsedImages) && parsedImages.length > 0) {
-        const firstVariantImage = parsedImages[0];
-        const index = allImages.indexOf(firstVariantImage);
-        if (index !== -1) {
-          activeImageIndex = index;
+
+  if (activeVariant) {
+    let parsedImages = activeVariant.images;
+    if (typeof parsedImages === 'string') {
+      try { parsedImages = JSON.parse(parsedImages); } catch(e){}
+    }
+    if (Array.isArray(parsedImages) && parsedImages.length > 0) {
+      parsedImages.forEach((img: string) => {
+        if (!allImages.includes(img)) {
+          allImages.push(img);
         }
+      });
+      // Select the first image of the active variant in the gallery
+      const index = allImages.indexOf(parsedImages[0]);
+      if (index !== -1) {
+        activeImageIndex = index;
       }
     }
   }
@@ -100,7 +78,7 @@ const ProductDetailPage = () => {
       <div className="container">
         <div className="product-detail-grid">
           <ProductGallery images={allImages} initialActiveIndex={activeImageIndex} />
-          <ProductInfo product={product} onColorChange={setActiveColorName} />
+          <ProductInfo product={product} onVariantChange={setActiveVariant} />
         </div>
       </div>
       

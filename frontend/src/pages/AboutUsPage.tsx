@@ -4,15 +4,18 @@ import StaticSEO from '../components/StaticSEO';
 import { useSiteSettings } from '../context/SiteSettingsContext';
 import OrnamentDivider from '../components/OrnamentDivider';
 import './AboutUsPage.css';
+import Loader from '../components/Loader';
 
 const AboutUsPage = () => {
-  const { aboutHeroImage, aboutStoryImage } = useSiteSettings();
+  const { aboutHeroImage, aboutStoryImage, brandPhysicalAddress, isLoading } = useSiteSettings();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const defaultHeroImage = "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070&auto=format&fit=crop";
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="about-page">
@@ -52,6 +55,14 @@ const AboutUsPage = () => {
               <p>
                 With decades of expertise in global trade, we have built a legacy of trust with customers worldwide, delivering the essence of tradition in every pack.
               </p>
+              {brandPhysicalAddress && (
+                <div style={{ marginTop: '24px', padding: '16px', backgroundColor: '#f8fafc', borderRadius: '8px', borderLeft: '4px solid var(--primary)' }}>
+                  <h4 style={{ margin: '0 0 8px 0', color: 'var(--primary)', fontSize: '16px' }}>Our Location</h4>
+                  <p style={{ margin: 0, whiteSpace: 'pre-line', color: 'var(--text-mid)', lineHeight: '1.6' }}>
+                    {brandPhysicalAddress}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

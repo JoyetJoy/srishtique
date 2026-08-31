@@ -2,8 +2,12 @@ import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import './ContactPage.css';
 import StaticSEO from '../components/StaticSEO';
+import { useSiteSettings } from '../context/SiteSettingsContext';
+import Loader from '../components/Loader';
 
 const ContactPage = () => {
+  const { brandPhysicalAddress, brandPhone, isLoading } = useSiteSettings();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -14,6 +18,8 @@ const ContactPage = () => {
     toast.success('Thank you for reaching out! We will get back to you soon.');
     (e.target as HTMLFormElement).reset();
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="contact-page">
@@ -37,7 +43,7 @@ const ContactPage = () => {
               </svg>
               <div className="info-content">
                 <h3>Our Office</h3>
-                <p>123 Fashion Street, Silk Board<br/>Bangalore, Karnataka 560068<br/>India</p>
+                <p style={{ whiteSpace: 'pre-line' }}>{brandPhysicalAddress || "123 Fashion Street, Silk Board\nBangalore, Karnataka 560068\nIndia"}</p>
               </div>
             </div>
 
@@ -47,7 +53,7 @@ const ContactPage = () => {
               </svg>
               <div className="info-content">
                 <h3>Phone</h3>
-                <p>+91 98765 43210<br/>Mon - Sat, 10am to 7pm</p>
+                <p>{brandPhone || "+91 98765 43210"}<br/>Mon - Sat, 10am to 7pm</p>
               </div>
             </div>
 

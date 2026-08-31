@@ -374,19 +374,24 @@ export const updateProduct = async (req: Request, res: Response) => {
     }
 
     for (const existing of existingVariants) {
-      if (!newVariantKeys.includes(`${existing.size}-${existing.color}`)) {
+      if (!existing.isDeleted && !newVariantKeys.includes(`${existing.size}-${existing.color}`)) {
         try {
           await prisma.productVariant.delete({ where: { id: existing.id } });
         } catch (e) {
           // If referenced by OrderItem, we can't delete. Set stock to 0 and soft delete instead.
-          await prisma.productVariant.update({
-            where: { id: existing.id },
-            data: { 
-              stock: 0,
-              isDeleted: true,
-              size: `${existing.size}_del_${Date.now()}`
-            }
-          });
+          const newSize = `${existing.size.split('_del_')[0]}_del_${Date.now()}`.substring(0, 50);
+          try {
+            await prisma.productVariant.update({
+              where: { id: existing.id },
+              data: { 
+                stock: 0,
+                isDeleted: true,
+                size: newSize
+              }
+            });
+          } catch (updateErr) {
+            console.error('Failed to soft delete variant:', updateErr);
+          }
         }
       }
     }

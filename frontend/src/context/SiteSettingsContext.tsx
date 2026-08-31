@@ -9,6 +9,7 @@ interface SiteSettings {
   brandName: string;
   brandTagline: string;
   brandAddress: string;
+  brandPhysicalAddress: string;
   brandPhone: string;
   brandWebsite: string;
   brandInstagram: string;
@@ -26,6 +27,7 @@ const defaults: SiteSettings = {
   brandName: 'DK Exporting',
   brandTagline: '',
   brandAddress: '',
+  brandPhysicalAddress: '',
   brandPhone: '',
   brandWebsite: '',
   brandInstagram: '',
@@ -48,6 +50,7 @@ const SETTING_KEYS: Array<{ key: string; field: keyof SiteSettings; isImage?: bo
   { key: 'BRAND_NAME', field: 'brandName' },
   { key: 'BRAND_TAGLINE', field: 'brandTagline' },
   { key: 'BRAND_ADDRESS', field: 'brandAddress' },
+  { key: 'BRAND_PHYSICAL_ADDRESS', field: 'brandPhysicalAddress' },
   { key: 'BRAND_PHONE', field: 'brandPhone' },
   { key: 'BRAND_WEBSITE', field: 'brandWebsite' },
   { key: 'BRAND_INSTAGRAM', field: 'brandInstagram' },

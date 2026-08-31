@@ -20,7 +20,7 @@ const colorHexMap: { [key: string]: string } = {
   pink: '#e91e63'
 };
 
-const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?: (color: string) => void }) => {
+const ProductInfo = ({ product, onVariantChange }: { product: any, onVariantChange?: (variant: any) => void }) => {
   const [activeColor, setActiveColor] = useState(0);
   const [activeSize, setActiveSize] = useState('M');
   const [quantity, setQuantity] = useState<number | string>(1);
@@ -57,11 +57,7 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
 
   const selectedColorName = colors[activeColor]?.name;
   
-  useEffect(() => {
-    if (onColorChange && selectedColorName) {
-      onColorChange(selectedColorName);
-    }
-  }, [selectedColorName, onColorChange]);
+
 
   const sizeChartMaster = product?.sizeChartMaster || product?.category?.sizeChartMaster;
   const sizeChartUrl = product?.sizeChart || product?.category?.sizeChart;
@@ -138,8 +134,14 @@ const ProductInfo = ({ product, onColorChange }: { product: any, onColorChange?:
   };
 
   const matchingVariant = product?.variants?.find(
-    (v: any) => v.size === activeSize && v.color === selectedColorName
+    (v: any) => v.size === activeSize && (!v.color || v.color === selectedColorName)
   ) || product?.variants?.[0];
+
+  useEffect(() => {
+    if (onVariantChange && matchingVariant) {
+      onVariantChange(matchingVariant);
+    }
+  }, [matchingVariant, onVariantChange]);
 
   const isOutOfStock = matchingVariant && matchingVariant.stock <= 0;
 

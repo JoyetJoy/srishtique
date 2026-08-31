@@ -36,6 +36,7 @@ const AdminSettings = () => {
   const [brandName, setBrandName] = useState('DK Exporting');
   const [brandTagline, setBrandTagline] = useState('adorn your aura');
   const [brandAddress, setBrandAddress] = useState('C/o VISHNU TEXTILES AND GARMENTS,\nVANNAPURAM P.O.\nTHODUPUZHA-685607');
+  const [brandPhysicalAddress, setBrandPhysicalAddress] = useState('');
   const [brandPhone, setBrandPhone] = useState('9074309636');
   const [brandWebsite, setBrandWebsite] = useState('www.dk_exporting.com');
   const [brandInstagram, setBrandInstagram] = useState('atma_adorn.your.aura');
@@ -120,6 +121,7 @@ const AdminSettings = () => {
         ['BRAND_NAME', setBrandName],
         ['BRAND_TAGLINE', setBrandTagline],
         ['BRAND_ADDRESS', setBrandAddress],
+        ['BRAND_PHYSICAL_ADDRESS', setBrandPhysicalAddress],
         ['BRAND_PHONE', setBrandPhone],
         ['BRAND_WEBSITE', setBrandWebsite],
         ['BRAND_INSTAGRAM', setBrandInstagram],
@@ -425,6 +427,7 @@ const AdminSettings = () => {
         ['BRAND_NAME', brandName],
         ['BRAND_TAGLINE', brandTagline],
         ['BRAND_ADDRESS', brandAddress],
+        ['BRAND_PHYSICAL_ADDRESS', brandPhysicalAddress],
         ['BRAND_PHONE', brandPhone],
         ['BRAND_WEBSITE', brandWebsite],
         ['BRAND_INSTAGRAM', brandInstagram],
@@ -560,6 +563,11 @@ const AdminSettings = () => {
           <div className="admin-form-group">
             <label>Shipped By Address (PDF)</label>
             <textarea className="admin-input" rows={3} value={brandAddress} onChange={e => setBrandAddress(e.target.value)} />
+          </div>
+
+          <div className="admin-form-group">
+            <label>Brand Address (About Us)</label>
+            <textarea className="admin-input" rows={3} value={brandPhysicalAddress} onChange={e => setBrandPhysicalAddress(e.target.value)} />
           </div>
 
           <div className="admin-form-group" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
