@@ -227,16 +227,24 @@ const ProductInfo = ({ product, onVariantChange }: { product: any, onVariantChan
   const hasMaterial = product?.materialAndCare && product.materialAndCare.length > 0;
   const hasSpecs = product?.specifications && Object.keys(product.specifications).length > 0;
 
-  if (hasDescription || hasProductDetails || hasSizeAndFit || hasMaterial || hasSpecs) {
+  if (hasDescription) {
+    baseAccordions.push({
+      title: 'Description',
+      content: (
+        <div className="product-details-content">
+          <p className="details-text" style={{ marginBottom: '0' }}>
+            {product.description}
+          </p>
+        </div>
+      )
+    });
+  }
+
+  if (hasProductDetails || hasSizeAndFit || hasMaterial || hasSpecs) {
     baseAccordions.push({
       title: 'Product Details',
       content: (
         <div className="product-details-content">
-          {hasDescription && (
-            <p className="details-text" style={{ marginBottom: hasProductDetails ? '16px' : '0' }}>
-              {product.description}
-            </p>
-          )}
           {hasProductDetails && (
             <ul className="details-list">
               {product.productDetails.map((detail: string, i: number) => (
